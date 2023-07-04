@@ -1,6 +1,5 @@
 <template>
   <div class="max-w-default mx-auto">
-    <Navbar />
     <div class="grid grid-cols-12 gap-x-6">
       <div class="col-span-3 flex flex-col gap-y-6">
         <FilterList :choices="expertises" name="Expertise" />
@@ -23,7 +22,6 @@
 import MentorItem from './MentorItem.vue'
 import FilterList from './FilterList.vue'
 import FilterPrice from './FilterPrice.vue'
-import Navbar from '../../components/Navbar.vue';
 
 const expertises = ['Data Science', 'Engineering', 'Design', 'Marketing', 'Business']
 const experiences = ['1-3 years', '3-5 years', '5-10 years']
