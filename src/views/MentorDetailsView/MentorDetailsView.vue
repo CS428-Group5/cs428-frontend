@@ -1,7 +1,7 @@
 <template>
   <section class="grid grid-cols-12 gap-x-6">
     <div class="col-span-3 flex flex-col p-2">
-      <img class="rounded-3xl" src="../assets/avatar.jpg" alt="" />
+      <img class="rounded-3xl" src="@/assets/avatar.jpg" alt="" />
     </div>
 
     <div class="col-span-9 flex flex-col p-2">
@@ -100,7 +100,7 @@
         </h3>
         <div class="my-3" v-for="(review, index) in reviews" :key="index">
           <div class="flex flex-row mb-3">
-            <img src="../assets/avatar.jpg" class="w-10 h-10 rounded-full mr-3" alt="" />
+            <img src="@/assets/avatar.jpg" class="w-10 h-10 rounded-full mr-3" alt="" />
             <p class="font-bold my-auto">{{ review.author }}</p>
           </div>
           <p class="text-blue-darkest">Score: {{ review.score }}</p>
