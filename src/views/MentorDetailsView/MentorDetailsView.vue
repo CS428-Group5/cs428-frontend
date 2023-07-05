@@ -1,25 +1,31 @@
 <template>
   <section class="grid grid-cols-12 gap-x-6">
-    <Image :image="avatar"/>
-    <SessionInfo 
-      :mentorName="sampleMentor.name" 
-      :mentotWork="sampleMentor.work" 
+    <Image :image="avatar" />
+    <SessionInfo
+      :mentorName="sampleMentor.name"
+      :mentotWork="sampleMentor.work"
       :sessionPrice="sampleMentor.price"
-      :remainingSession="sampleMentor.remainingSession" />
+      :remainingSession="sampleMentor.remainingSession"
+    />
   </section>
 
   <section class="grid grid-cols-12 gap-x-6">
-    <MentorInfo :expertise="sampleMentor.expertise" :experience="sampleMentor.experience" :about="sampleMentor.about" />
+    <MentorInfo
+      :expertise="sampleMentor.expertise"
+      :experience="sampleMentor.experience"
+      :about="sampleMentor.about"
+    />
     <MentorReviews :reviews="reviews" />
   </section>
 </template>
 
 <script setup>
-import Image from '../../components/MentorDetailsComponents/Image.vue';
-import SessionInfo from '../../components/MentorDetailsComponents/SessionInfo.vue';
-import MentorInfo from '../../components/MentorDetailsComponents/MentorInfo.vue';
-import MentorReviews from '../../components/MentorDetailsComponents/MentorReviews.vue';
-import avatar from '../../assets/avatar.jpg'
+import Image from './Image.vue'
+import SessionInfo from './SessionInfo.vue'
+import MentorInfo from './MentorInfo.vue'
+import MentorReviews from './MentorReviews.vue'
+import avatar from '@/assets/avatar.jpg'
+
 const sampleMentor = {
   name: 'Darlene Robertson',
   work: 'Software Engineer at Microsoft',
@@ -27,9 +33,10 @@ const sampleMentor = {
   remainingSession: 2,
   expertise: 'Engineer',
   experience: 2,
-  about: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.\
+  about:
+    'Lorem ipsum, dolor sit amet consectetur adipisicing elit.\
    Facilis perspiciatis a, velit tenetur ab distinctio optio earum quae atque maiores, dolor fugiat eligendi laudantium?\
-   Repellendus ullam temporibus eaque asperiores quaerat.',
+   Repellendus ullam temporibus eaque asperiores quaerat.'
 }
 
 const reviews = [
@@ -55,8 +62,6 @@ const reviews = [
     score: 5
   }
 ]
-
-// console.log(averageRating);
 </script>
 
 <style lang="scss" scoped></style>
