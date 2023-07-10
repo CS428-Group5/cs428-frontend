@@ -23,6 +23,11 @@ const router = createRouter({
       path: '/mentors/:id',
       name: 'mentors.details',
       component: () => import('@/views/MentorDetailsView/MentorDetailsView.vue')
+    },
+    {
+      path: '/signUpForm',
+      name: 'signUpForm',
+      component: () => import('@/views/SignUpFormView.vue')
     }
   ]
 })
