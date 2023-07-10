@@ -3,13 +3,13 @@
     <Image :image="avatar" />
     <SessionInfo
       :mentorName="sampleMentor.name"
-      :mentotWork="sampleMentor.work"
+      :mentorWork="sampleMentor.work"
       :sessionPrice="sampleMentor.price"
       :remainingSession="sampleMentor.remainingSession"
     />
   </section>
 
-  <section class="grid grid-cols-12 gap-x-6">
+  <section class="mt-16 grid grid-cols-12 gap-x-6">
     <MentorInfo
       :expertise="sampleMentor.expertise"
       :experience="sampleMentor.experience"
