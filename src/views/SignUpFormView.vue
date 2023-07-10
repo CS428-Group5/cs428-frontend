@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center w-1/3 mx-auto">
+  <div class="flex justify-center w-1/3 mx-auto my-24">
     <form v-if="isMentor" action="">
       <h1 class="text-3xl mb-9">Sign up as Mentor</h1>
 
