@@ -32,7 +32,7 @@ const router = createRouter({
     {
       path: '/sign-up',
       name: 'signup',
-      component: () => import('@/views/SignUpFormView.vue')
+      component: () => import('@/views/SignUpView/SignUpView.vue')
     },
     {
       path: '/payment',
