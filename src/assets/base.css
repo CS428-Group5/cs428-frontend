@@ -8,7 +8,6 @@ html {
   font-family: var(--font-family);
 }
 
-
 .xs-400 {
   font-family: var(--font-family);
   font-size: 12px;
@@ -99,7 +98,6 @@ html {
   line-height: 64px;
   font-weight: 700;
 }
-
 
 /* COLORS */
 
