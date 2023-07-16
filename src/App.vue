@@ -1,6 +1,6 @@
 <template>
   <main class="max-w-default mx-auto h-fit px-20">
-    <Navbar />
+    <Navbar v-show="shouldShowNavbar"/>
     <router-view></router-view>
   </main>
 </template>
