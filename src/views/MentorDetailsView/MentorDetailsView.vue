@@ -26,6 +26,30 @@ import MentorInfo from './MentorInfo.vue'
 import MentorReviews from './MentorReviews.vue'
 import avatar from '@/assets/avatar.jpg'
 
+import axios from 'axios'
+import { useRoute } from 'vue-router'
+
+const router = useRoute()
+console.log(router.params);
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.withCredentials = true;
+
+await axios
+  .get(
+    `http://127.0.0.1:8000/api/mentors/${router.params.id}`, 
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With"
+      }
+    }
+  )
+  .then(res => console.log(res.data))
+  .catch(e => console.log('error', e))
+
 const sampleMentor = {
   name: 'Darlene Robertson',
   work: 'Software Engineer at Microsoft',
