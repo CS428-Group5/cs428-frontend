@@ -25,9 +25,39 @@ const router = createRouter({
       component: () => import('@/views/MentorDetailsView/MentorDetailsView.vue')
     },
     {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/LoginView/LoginView.vue')
+    },
+    {
       path: '/sign-up',
       name: 'signup',
-      component: () => import('@/views/SignUpFormView.vue')
+      component: () => import('@/views/SignUpView/SignUpView.vue')
+    },
+    {
+      path: '/payment',
+      name: 'payment',
+      component: () => import('../views/Payment.vue')
+    },
+    {
+      path: '/success',
+      name: 'success',
+      component: () => import('../views/Paymentsuccess.vue')
+    },
+    {
+      path: '/fav',
+      name: 'fav',
+      component: () => import('../views/Favmentor.vue')
+    },
+    {
+      path: '/sessions',
+      name: 'sessions',
+      component: () => import('../views/SessionManagement/SessionList.vue')
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: () => import('../views/PurchaseHistory.vue')
     }
   ]
 })
