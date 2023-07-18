@@ -9,7 +9,7 @@
             <a class="px-2 text-base" style="color: #599bff" href="/login">Login</a>
         </div>
 
-        <form action="">
+        <form @submit.prevent="nextStep" action="">
             <label for="email" class="text-sm">Email</label>
             <input id="email" name="email" class="bg-gray-lightest rounded-xl w-full px-6 py-4 mb-4 text-base"
                 placeholder="Email" />
@@ -19,10 +19,10 @@
                 class="bg-gray-lightest rounded-xl w-full px-6 py-4 mb-4 text-base" />
             <div class="mb-4">
             <p class="text-sm" > What is your role? </p>
-            <input class="accent-black" type="radio" id="mentee" value="true" v-model="picked">
-            <label class="ml-3 text-base" for="mentee">Mentee</label><br>
-            <input class="accent-black" type="radio" id="mentor" value="false" v-model="picked">
+            <input class="accent-black" type="radio" id="mentor" value="true" v-model="isMentor">
             <label class="ml-3 text-base" for="mentor">Mentor</label><br>
+            <input class="accent-black" type="radio" id="mentee" value="false" v-model="isMentor">
+            <label class="ml-3 text-base" for="mentee">Mentee</label><br>
             </div>
 
             <button class="w-full h-12 px-4 py-3 text-white rounded-xl" style="background-color: #599bff">
@@ -35,16 +35,24 @@
   
 <script setup>
 
-const isMentor = true
+
 </script>
 <script>
 export default {
-  name: "SignUpForm",
+  name: "SignUpBaseForm",
   data() {
     return {
-      picked: "",
+      isMentor: "",
     };
   },
+  props: ['setIsBase', 'setIsMentor',],
+  methods: {
+    nextStep(){
+        this.setIsBase(false);
+        console.log(this.isMentor =='true')
+        this.setIsMentor(this.isMentor == 'true')
+    },
+  }
 };
 </script>  
 
