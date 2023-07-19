@@ -39,7 +39,7 @@
       <div class="my-4" v-for="(review, index) in reviews" :key="index">
         <div class="flex flex-row">
           <img :src="review.avatar" class="w-10 h-10 rounded-full mr-2" alt="" />
-          <p class="font-bold my-auto">{{ review.lastname + review.firstname }}</p>
+          <p class="font-bold my-auto">{{ review.lastname + ' ' + review.firstname }}</p>
         </div>
         <p class="text-blue-darkest my-2">Score: {{ review.rating }}</p>
         <p class="text-blue-darkest">{{ review.content }}</p>
@@ -48,6 +48,7 @@
     </div>
   </div>
 </template>
+
 <script setup>
 function calculateAverageRating(reviews) {
   let averageRating = 0
@@ -61,13 +62,6 @@ function calculateAverageRating(reviews) {
 export default {
   props: ['reviews']
 }
-
-// avatar: '/media/avatars/149.jpeg'
-// content: 'Thanks to him, I stayed.'
-// firstname: 'JK'
-// id: 1
-// lastname: 'Jeon'
-// rating: 5
 </script>
 
 <style></style>

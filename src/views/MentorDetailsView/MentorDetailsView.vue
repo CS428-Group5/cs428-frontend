@@ -19,7 +19,7 @@
   </section>
 </template>
 
-<script setup>
+<script>
 import Image from './Image.vue'
 import SessionInfo from './SessionInfo.vue'
 import MentorInfo from './MentorInfo.vue'
@@ -29,41 +29,46 @@ import avatar from '@/assets/avatar.jpg'
 import client from '../../axios/client.ts'
 import { useRoute } from 'vue-router'
 
-let mentor = {}
-let reviews = []
+export default {
+  components: { Image, SessionInfo, MentorInfo, MentorReviews },
+  data() {
+    return {
+      router: useRoute(),
+      mentor: {},
+      reviews: [],
+      errors: []
+    }
+  },
+  mounted() {
+    console.log('mentor id nek', this.router.params.id)
 
-const router = useRoute()
-console.log('mentor id nek', router.params.id)
-await client
-  .get(`http://localhost:8000/api/mentors/${router.params.id}`, { withCredentials: true })
-  .then((res) => {
-    // console.log(res.data)
-    mentor = res.data
-    console.log('Mentor info nek: ', mentor)
-    mentor.fullname = mentor.lastname + ' ' + mentor.firstname
-    mentor.avatar = '@/assets/avatar.jpg'
-    mentor.remainingSession = 2
-  })
-  .catch((e) => console.log('error,', e))
+    client
+      .get(`http://localhost:8000/api/mentors/${this.router.params.id}`, { withCredentials: true })
+      .then((res) => {
+        // console.log(res.data)
+        this.mentor = res.data
+        this.mentor.fullname = this.mentor.lastname + ' ' + this.mentor.firstname
+        this.mentor.avatar = avatar
+        this.mentor.remainingSession = 2
+        console.log('Mentor info nek: ', this.mentor)
+      })
+      .catch((e) => {
+        console.log('error,', e)
+        this.errors.push(e)
+      })
 
-// about_me: 'njnjkjjnnjkjkn'
-// current_company: 'Bighit'
-// current_title: 'myg nek'
-// default_session_price: '1000.0000'
-// experience: 10
-// expertise: 'Song Composer'
-// firstname: 'YG'
-// id: 2
-// lastname: 'Min'
-
-await client
-  .get(`http://localhost:8000/api/mentors/${router.params.id}/reviews`, { withCredentials: true })
-  .then((res) => {
-    // console.log(res.data)
-    reviews = res.data
-    console.log('mentor reviews nek', reviews)
-  })
-  .catch((e) => console.log('error,', e))
+    client
+      .get(`http://localhost:8000/api/mentors/${this.router.params.id}/reviews`, {
+        withCredentials: true
+      })
+      .then((res) => {
+        // console.log(res.data)
+        this.reviews = res.data
+        console.log('mentor reviews nek', this.reviews)
+      })
+      .catch((e) => console.log('error,', e))
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
