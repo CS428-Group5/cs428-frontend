@@ -1,19 +1,19 @@
 <template>
   <section class="grid grid-cols-12 gap-x-6">
-    <Image :image="avatar" />
+    <Image :image="mentor.avatar" />
     <SessionInfo
-      :mentorName="sampleMentor.name"
-      :mentorWork="sampleMentor.work"
-      :sessionPrice="sampleMentor.price"
-      :remainingSession="sampleMentor.remainingSession"
+      :mentorName="mentor.fullname"
+      :mentorWork="mentor.current_company"
+      :sessionPrice="mentor.default_session_price"
+      :remainingSession="mentor.remainingSession"
     />
   </section>
 
   <section class="mt-16 grid grid-cols-12 gap-x-6">
     <MentorInfo
-      :expertise="sampleMentor.expertise"
-      :experience="sampleMentor.experience"
-      :about="sampleMentor.about"
+      :expertise="mentor.expertise"
+      :experience="mentor.experience"
+      :about="mentor.about_me"
     />
     <MentorReviews :reviews="reviews" />
   </section>
@@ -29,68 +29,41 @@ import avatar from '@/assets/avatar.jpg'
 import client from '../../axios/client.ts'
 import { useRoute } from 'vue-router'
 
-const router = useRoute()
-const mentor = {
-  name: '',
-  work: '',
-  price: 0,
-  remainingSession: 0,
-  expertise: '',
-  experience: 0,
-  about: ''
-}
-const reviews = [
-  {
-    author: '',
-    avatar: '',
-    comment: '',
-    score: 0
-  }
-]
-const error = ''
+let mentor = {}
+let reviews = []
 
-console.log(router.params.id)
+const router = useRoute()
+console.log('mentor id nek', router.params.id)
 await client
-  .get(`http://127.0.0.1:8000/api/mentors/${router.params.id}`)
-  .then((res) => console.log(res.data))
+  .get(`http://localhost:8000/api/mentors/${router.params.id}`, { withCredentials: true })
+  .then((res) => {
+    // console.log(res.data)
+    mentor = res.data
+    console.log('Mentor info nek: ', mentor)
+    mentor.fullname = mentor.lastname + ' ' + mentor.firstname
+    mentor.avatar = '@/assets/avatar.jpg'
+    mentor.remainingSession = 2
+  })
   .catch((e) => console.log('error,', e))
 
-// const sampleMentor = {
-//   name: 'Darlene Robertson',
-//   work: 'Software Engineer at Microsoft',
-//   price: 50000,
-//   remainingSession: 2,
-//   expertise: 'Engineer',
-//   experience: 2,
-//   about:
-//     'Lorem ipsum, dolor sit amet consectetur adipisicing elit.\
-//    Facilis perspiciatis a, velit tenetur ab distinctio optio earum quae atque maiores, dolor fugiat eligendi laudantium?\
-//    Repellendus ullam temporibus eaque asperiores quaerat.'
-// }
+// about_me: 'njnjkjjnnjkjkn'
+// current_company: 'Bighit'
+// current_title: 'myg nek'
+// default_session_price: '1000.0000'
+// experience: 10
+// expertise: 'Song Composer'
+// firstname: 'YG'
+// id: 2
+// lastname: 'Min'
 
-// const reviews = [
-//   {
-//     author: 'Kathryn Murphy',
-//     avatar: avatar,
-//     comment:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti excepturi corporis, hic voluptatem qui ullam, repellat ipsum suscipit veritatis accusamus libero aut unde animi dolor aperiam accusantium vitae deserunt quae.',
-//     score: 5
-//   },
-//   {
-//     author: 'Jacob Jones',
-//     avatar: avatar,
-//     comment:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti excepturi corporis, hic voluptatem qui ullam, repellat ipsum suscipit veritatis accusamus libero aut unde animi dolor aperiam accusantium vitae deserunt quae.',
-//     score: 4
-//   },
-//   {
-//     author: 'Savannah Nguyen',
-//     avatar: avatar,
-//     comment:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti excepturi corporis, hic voluptatem qui ullam, repellat ipsum suscipit veritatis accusamus libero aut unde animi dolor aperiam accusantium vitae deserunt quae.',
-//     score: 5
-//   }
-// ]
+await client
+  .get(`http://localhost:8000/api/mentors/${router.params.id}/reviews`, { withCredentials: true })
+  .then((res) => {
+    // console.log(res.data)
+    reviews = res.data
+    console.log('mentor reviews nek', reviews)
+  })
+  .catch((e) => console.log('error,', e))
 </script>
 
 <style lang="scss" scoped></style>
