@@ -38,7 +38,15 @@
       </h3>
       <div class="my-4" v-for="(review, index) in reviews" :key="index">
         <div class="flex flex-row">
-          <img :src="review.avatar" class="w-10 h-10 rounded-full mr-2" alt="" />
+          <img
+            :src="
+              review.avatar
+                ? review.avatar
+                : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
+            "
+            class="w-10 h-10 rounded-full mr-2"
+            alt=""
+          />
           <p class="font-bold my-auto">{{ review.lastname + ' ' + review.firstname }}</p>
         </div>
         <p class="text-blue-darkest my-2">Score: {{ review.rating }}</p>

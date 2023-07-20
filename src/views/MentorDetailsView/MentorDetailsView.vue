@@ -1,6 +1,12 @@
 <template>
   <section class="grid grid-cols-12 gap-x-6">
-    <Image :image="mentor.avatar" />
+    <Image
+      :image="
+        mentor.avatar
+          ? mentor.avatar
+          : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
+      "
+    />
     <SessionInfo
       :mentorName="mentor.fullname"
       :mentorWork="mentor.current_company"
@@ -40,17 +46,12 @@ export default {
     }
   },
   mounted() {
-    console.log('mentor id nek', this.router.params.id)
-
     client
       .get(`http://localhost:8000/api/mentors/${this.router.params.id}`, { withCredentials: true })
       .then((res) => {
-        // console.log(res.data)
         this.mentor = res.data
-        this.mentor.fullname = this.mentor.lastname + ' ' + this.mentor.firstname
-        this.mentor.avatar = avatar
+        this.mentor.fullname = this.mentor.firstname + ' ' + this.mentor.lastname
         this.mentor.remainingSession = 2
-        console.log('Mentor info nek: ', this.mentor)
       })
       .catch((e) => {
         console.log('error,', e)
@@ -62,9 +63,7 @@ export default {
         withCredentials: true
       })
       .then((res) => {
-        // console.log(res.data)
         this.reviews = res.data
-        console.log('mentor reviews nek', this.reviews)
       })
       .catch((e) => console.log('error,', e))
   }

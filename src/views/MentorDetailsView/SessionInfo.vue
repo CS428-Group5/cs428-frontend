@@ -2,7 +2,9 @@
   <div class="col-span-9 flex flex-col p-2">
     <h1 class="text-3xl font-bold">{{ mentorName }}</h1>
     <p class="text-lg mt-2">{{ mentorWork }}</p>
-    <h2 class="mt-4 text-2xl font-bold">{{ sessionPrice }}d / session</h2>
+    <h2 class="mt-4 text-2xl font-bold">
+      {{ Math.trunc(sessionPrice).toLocaleString('en') }}d / session
+    </h2>
     <div class="mt-4 flex flex-row">
       <button class="w-10 h-10 text-black rounded-xl" style="background-color: #d9e6fa">-</button>
       <p class="mx-4 my-auto text-base">1</p>
