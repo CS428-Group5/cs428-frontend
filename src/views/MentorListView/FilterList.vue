@@ -6,8 +6,9 @@
         v-for="(choice, index) in choices"
         :key="index"
         class="flex flex-row gap-x-2 items-center"
+        @click="toggleChoice(choice)"
       >
-        <CheckboxOutlineIcon v-if="index % 2 == 0" class="w-6 aspect-square" />
+        <CheckboxOutlineIcon v-if="selected.includes(choice)" class="w-6 aspect-square" />
         <CheckboxBlankOutlineIcon v-else class="w-6 aspect-square" />
         <div class="text-blue-darkest text-center">{{ choice }}</div>
       </div>
@@ -18,11 +19,26 @@
 <script setup>
 import CheckboxOutlineIcon from 'vue-material-design-icons/CheckboxOutline.vue'
 import CheckboxBlankOutlineIcon from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   choices: Array,
   name: String
 })
+
+const emit = defineEmits(['update'])
+
+const selected = ref([])
+
+function toggleChoice(choice) {
+  if (selected.value.includes(choice)) {
+    selected.value = selected.value.filter((item) => item !== choice)
+  } else {
+    selected.value.push(choice)
+  }
+
+  emit('update', selected.value)
+}
 </script>
 
 <style lang="scss" scoped></style>
