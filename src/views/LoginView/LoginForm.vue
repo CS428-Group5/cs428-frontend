@@ -1,5 +1,5 @@
 <template>
-    <div class=" col-span-4 flex flex-col p-2 ml-8">
+    <div class=" col-span-1 flex flex-col">
         <div class="col-span-3 flex items-center mb-6">
             <img style="height: 32px;" class="" src="@/assets/logo_mentoree.svg" alt="avatar" />
         </div>
@@ -22,7 +22,7 @@
             </div>
             <p class="text-sm text-red mb-3">{{ this.error }}</p>
 
-            <button class="w-full h-12 px-4 py-3 text-white rounded-xl" type="submit" style="background-color: #599bff">
+            <button class="w-full h-12 px-4 py-3 text-white rounded-2xl" type="submit" style="background-color: #599bff">
                 Login
             </button>
         </form>
