@@ -1,5 +1,5 @@
 <template>
-    <div class="mt-16 grid grid-cols-12">
+    <div class="mt-20 grid grid-cols-3">
         <ImageLogin :image="login" />
         <LoginForm/>
     </div>

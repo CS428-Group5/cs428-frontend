@@ -15,6 +15,7 @@ const shouldShowNavbar = ref(true)
 watchEffect(() => {
   const currentPath = window.location.pathname
   shouldShowNavbar.value = !currentPath.startsWith('/sign-up') && !currentPath.startsWith('/login')
+  
   client
     .get(`/authentication/cookie-acceptance`, {
       withCredentials: true
