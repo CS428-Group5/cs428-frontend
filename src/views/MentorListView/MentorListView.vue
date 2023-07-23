@@ -33,11 +33,14 @@
       </button>
     </div>
     <div class="col-span-9 grid grid-cols-9 gap-x-6 gap-y-8">
-      <div v-for="(mentor, index) in mentors" :key="index" class="col-span-3">
-        <router-link :to="{ path: `/mentors/${mentor.id}` }">
-          <MentorItem :mentor="mentor" />
-        </router-link>
-      </div>
+      <div v-if="mentors.length === 0" class="col-span-3">No result.</div>
+      <template v-else>
+        <div v-for="(mentor, index) in mentors" :key="index" class="col-span-3">
+          <router-link :to="{ path: `/mentors/${mentor.id}` }">
+            <MentorItem :mentor="mentor" />
+          </router-link>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -47,7 +50,7 @@ import MentorItem from './MentorItem.vue'
 import FilterList from './FilterList.vue'
 
 import { ref } from 'vue'
-import axios from 'axios'
+import client from '@/axios/client'
 
 const experiences = ['1-3 years', '3-5 years', '>5 years']
 const expertises = ref([])
@@ -67,10 +70,8 @@ function updateExperience(newExperiences) {
 }
 
 function fetchMentors() {
-  axios
-    .get('http://localhost:8000/api/mentors/', {
-      headers: { Authorization: null },
-      withCredentials: true,
+  client
+    .get('/mentors/', {
       params: {
         expertise: selectedExpertises.value,
         experience: selectedExperiences.value,
@@ -93,11 +94,8 @@ function applyFilter() {
   fetchMentors()
 }
 
-axios
-  .get('http://localhost:8000/api/expertises/', {
-    headers: { Authorization: null },
-    withCredentials: true
-  })
+client
+  .get('/expertises/')
   .then((res) => {
     expertises.value = res.data.map((expertise) => expertise.expertise_name)
   })

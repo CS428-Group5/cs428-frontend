@@ -30,9 +30,8 @@ import Image from './Image.vue'
 import SessionInfo from './SessionInfo.vue'
 import MentorInfo from './MentorInfo.vue'
 import MentorReviews from './MentorReviews.vue'
-import avatar from '@/assets/avatar.jpg'
 
-import client from '../../axios/client.ts'
+import client from '@/axios/client.ts'
 import { useRoute } from 'vue-router'
 
 export default {
@@ -47,7 +46,7 @@ export default {
   },
   mounted() {
     client
-      .get(`http://localhost:8000/api/mentors/${this.router.params.id}`, { withCredentials: true })
+      .get(`/mentors/${this.router.params.id}`)
       .then((res) => {
         this.mentor = res.data
         this.mentor.fullname = this.mentor.firstname + ' ' + this.mentor.lastname
@@ -59,9 +58,7 @@ export default {
       })
 
     client
-      .get(`http://localhost:8000/api/mentors/${this.router.params.id}/reviews`, {
-        withCredentials: true
-      })
+      .get(`/mentors/${this.router.params.id}/reviews`)
       .then((res) => {
         this.reviews = res.data
       })
