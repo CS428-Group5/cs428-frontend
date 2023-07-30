@@ -83,9 +83,6 @@
   </div>
 </template>
 
-<!-- script setup: execute every time an instance of the component is created. 
-script: only executes once when the component is first imported  -->
-
 <script setup>
 import Image from '../MentorDetailsView/Image.vue'
 import CameraOutline from 'vue-material-design-icons/CameraOutline.vue'
