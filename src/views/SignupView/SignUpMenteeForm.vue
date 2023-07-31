@@ -46,18 +46,21 @@ export default {
             this.setIsBase(true);
         },
         async signUp() {
-            const a = {
+            const data = {
                 username: this.form.email,
                 password: this.form.password,
-                email: 'abc@example.com',
+                email: this.form.email,
                 gender: 0,
                 first_name: this.form.f_name,
                 last_name: this.form.l_name,
                 current_title: this.form.title,
                 about_me: this.form.about
             }
-            client.post(`/authentication/registration/mentee`, a)
-                .then(response => { this.$router.push(`/`) })
+            client.post(`/authentication/registration/mentee`, data)
+                .then(response => { 
+                    console.log(response)
+                    this.$router.push(`/login`)
+                 })
                 .catch(e => {
                     this.error = e.response.data
                 })

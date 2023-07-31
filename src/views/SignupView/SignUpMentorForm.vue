@@ -70,10 +70,10 @@ export default {
             this.setIsBase(true);
         },
         async signUp() {
-            const a = {
+            const data = {
                 username: this.form.email,
                 password: this.form.password,
-                email: 'abc@example.com',
+                email: this.form.email,
                 gender: 0,
                 first_name: this.form.f_name,
                 last_name: this.form.l_name,
@@ -84,8 +84,12 @@ export default {
                 experience: 0,
                 expertise_name: this.form.expertise,
             }
-            client.post(`/authentication/registration/mentor`, a)
-                .then(response => { this.$router.push(`/`) })
+            client.post(`/authentication/registration/mentor`, data)
+                .then(response => { 
+                    console.log(response)
+                    
+                    this.$router.push(`/login`)
+                })
                 .catch(e => {
                     this.error = e.response.data
                 })

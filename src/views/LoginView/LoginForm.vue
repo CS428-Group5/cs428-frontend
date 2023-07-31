@@ -9,9 +9,9 @@
         </div>
 
         <form @submit.prevent="loginAccount">
-            <label for="username" class="text-sm">Username</label>
-            <input id="username" name='username' v-model="form.username" class="bg-gray-lightest rounded-xl w-full px-6 py-4 mb-4 text-base"
-                placeholder="Linda" />
+            <label for="email" class="text-sm">Email</label>
+            <input id="email" name='email' v-model="form.email" class="bg-gray-lightest rounded-xl w-full px-6 py-4 mb-4 text-base"
+                placeholder="xyz@email.com" />
 
             <label for="password" class="text-sm">Password</label>
             <input id="password" name='password' v-model="form.password" type="password"
@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             form: {
-                username: '',
+                email: '',
                 password: '',
             },
             error: '',
@@ -45,10 +45,13 @@ export default {
     methods: {
         async loginAccount() {
             const formData = new FormData()
-            formData.append('username', this.form.username);
+            formData.append('username', this.form.email);
             formData.append('password',this.form.password)
             client.post(`/authentication/login`, formData)
-                .then(response => {this.$router.push(`/`)})
+                .then(response => {
+                    console.log(response)
+                    // this.$router.push(`/`)
+                })
                 .catch(e => {
                     this.error = e.response.data;
                 })
