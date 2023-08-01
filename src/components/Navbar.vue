@@ -11,20 +11,14 @@
       class="px-6 py-4 bg-gray-lightest rounded-2xl col-span-6 focus:outline-none"
     />
     <div v-if="!isLogin" class="col-span-3 flex justify-end gap-6">
-      <button
-        type="button"
-        class="bg-white w-fit px-4 py-3 text-blue rounded-2xl"
-        @click="this.$router.push(`/sign-up`)"
-      >
-        Sign up
-      </button>
-      <button
-        type="button"
-        class="bg-blue w-fit px-4 py-3 text-white rounded-2xl"
-        @click="this.$router.push(`/login`)"
-      >
-        Log in
-      </button>
+      <router-link :to="{ name: 'signup' }">
+        <button type="button" class="bg-white w-fit px-4 py-3 text-blue rounded-2xl">
+          Sign up
+        </button>
+      </router-link>
+      <router-link :to="{ name: 'login' }">
+        <button type="button" class="bg-blue w-fit px-4 py-3 text-white rounded-2xl">Log in</button>
+      </router-link>
     </div>
     <div v-else class="col-span-3 flex justify-end items-center gap-6 relative">
       <button type="button" class="bg-blue-light w-fit p-2.5 rounded-2xl">
