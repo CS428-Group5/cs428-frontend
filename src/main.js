@@ -8,9 +8,10 @@ import '@/assets/reset.css'
 import '@/assets/base.css'
 import '@/assets/styles.css'
 
+const pinia = createPinia()
 const app = createApp(App)
 
-app.use(createPinia())
+app.use(pinia)
 app.use(router)
 
 app.mount('#app')

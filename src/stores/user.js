@@ -1,14 +1,16 @@
-import { ref, computed } from 'vue'
+
 import { defineStore } from 'pinia'
 
-export const useUserStore = defineStore('user', () => {
-  const user = ref({})
-  const setUser = (data)=> {
-    user.value = data
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    user: undefined,
+  }),
+  getters: {
+    getUser(state){return state.user},
+  },
+  actions: {
+    setUser(data) {
+      this.user = data
+    }
   }
-  const removeUser = ()=> {
-    user.value = {}
-  }
-
-  return { user, setUser, removeUser }
 })

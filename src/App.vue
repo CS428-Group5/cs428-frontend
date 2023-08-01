@@ -8,33 +8,44 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue'
 import { ref, watchEffect } from 'vue'
-import useUserStore from '@/stores/user'
-import LOCAL_STORAGE_KEYS from '@/constant/local_storage.ts'
+import client from "@/axios/client.ts"
+import { useUserStore } from '@/stores/user'
+import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
+import APIS from '@/constants/apis.ts'
 
 const shouldShowNavbar = ref(true)
 const userStore = useUserStore()
 
-const { user, setUser } = userStore
 const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
 
 watchEffect(() => {
-  if (user.account || !token) return
-		client
-			.get<Account>(APIS.TRACK_TOKEN, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			.then((response) => {
-        console.log("asdasd")
-				client.defaults.headers.common.Authorization = `Bearer ${token}`
-			})
-			.catch(() => {
-				console.log('failed')
-			})
+  if (token || !userStore.getUser) {
+    client
+      .get(APIS.GET_ACCOUNT, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        client.defaults.headers.common.Authorization = `Bearer ${token}`
+        userStore.setUser(response.data)
+        console.log(userStore.getUser)
+      })
+      .catch(() => {
+        userStore.setUser(undefined)
+        localStorage.removeItem(
+          LOCAL_STORAGE_KEYS.TOKEN_KEY
+        )
+        client.defaults.headers.common.Authorization = ``
+      })
+  }
   const currentPath = window.location.pathname
   shouldShowNavbar.value = !currentPath.startsWith('/sign-up') && !currentPath.startsWith('/login')
 })
+</script>
+<script>
+
+
 </script>
 
 <style lang="scss" scoped></style>
