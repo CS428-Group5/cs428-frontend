@@ -49,7 +49,7 @@
           <li class="px-4 py-2 hover:bg-gray-lightest">Session Inventory</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>
+          <li @click="logoutAccount" class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>
         </ul>
         <ul v-else>
           <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref } from 'vue'
 
 import MessageTextOutline from 'vue-material-design-icons/MessageTextOutline.vue'
 import BellOutline from 'vue-material-design-icons/BellOutline.vue'
@@ -75,18 +75,17 @@ import { useUserStore } from '@/stores/user'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 
 const userStore = useUserStore()
-console.log(userStore.getUser)
-const isLogin = ref(false)
-const isMentor = ref(false)
-
 const showDropDown = ref(false)
-watchEffect(() => {
-  isLogin.value = userStore.getUser != undefined
-  isMentor.value = userStore.getUser?.user?.is_mentor
+
+const props = defineProps({
+  isLogin: Boolean,
+  isMentor: Boolean
 })
+
 function toggleDropDown() {
   showDropDown.value = !showDropDown.value
 }
+
 function logoutAccount() {
   client
     .get(`/authentication/logout`)
@@ -94,6 +93,7 @@ function logoutAccount() {
       userStore.setUser({})
       localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
       client.defaults.headers.common.Authorization = ``
+      location.reload()
     })
     .catch((e) => {
       console.log(e)

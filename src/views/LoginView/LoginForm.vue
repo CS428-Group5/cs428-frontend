@@ -47,9 +47,6 @@
 <script>
 import client from '../../axios/client.ts'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
-import APIS from '@/constants/apis.ts'
-import { useUserStore } from '@/stores/user'
-const userStore = useUserStore()
 
 export default {
   name: 'LoginForm',
@@ -73,7 +70,9 @@ export default {
           if (response.data.token) {
             localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN_KEY, response.data.token)
           }
-          this.$router.push(`/`)
+          this.$router.push(`/`).then(() => {
+            this.$router.go()
+          })
         })
         .catch((e) => {
           console.log(e)

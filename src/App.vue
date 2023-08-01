@@ -1,6 +1,6 @@
 <template>
   <main class="max-w-default mx-auto h-fit px-20 mb-10">
-    <Navbar v-show="shouldShowNavbar" />
+    <Navbar v-show="shouldShowNavbar" :is-login="isLogin" :is-mentor="isMentor" />
     <router-view></router-view>
   </main>
 </template>
@@ -15,8 +15,10 @@ import APIS from '@/constants/apis.ts'
 
 const shouldShowNavbar = ref(true)
 const userStore = useUserStore()
-
 const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
+
+const isLogin = ref(false)
+const isMentor = ref(false)
 
 watchEffect(() => {
   if (token || !userStore.getUser) {
@@ -29,7 +31,9 @@ watchEffect(() => {
       .then((response) => {
         client.defaults.headers.common.Authorization = `Bearer ${token}`
         userStore.setUser(response.data)
-        console.log(userStore.getUser)
+
+        isLogin.value = userStore.getUser != undefined
+        isMentor.value = userStore.getUser?.user?.is_mentor
       })
       .catch(() => {
         userStore.setUser(undefined)
@@ -37,6 +41,7 @@ watchEffect(() => {
         client.defaults.headers.common.Authorization = ``
       })
   }
+
   const currentPath = window.location.pathname
   shouldShowNavbar.value = !currentPath.startsWith('/sign-up') && !currentPath.startsWith('/login')
 })
