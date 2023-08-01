@@ -1,7 +1,9 @@
 <template>
   <div class="grid grid-cols-12 gap-x-6 pt-3 pb-8">
-    <div class="col-span-3 flex items-center" @click="this.$router.push(`/`)">
-      <img style="height: 32px" class="" src="@/assets/logo_mentoree.svg" alt="avatar" />
+    <div class="col-span-3 flex items-center">
+      <router-link :to="{ name: 'home' }">
+        <img style="height: 32px" class="" src="@/assets/logo_mentoree.svg" alt="avatar" />
+      </router-link>
     </div>
     <input
       type="text"
