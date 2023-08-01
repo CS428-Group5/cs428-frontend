@@ -8,7 +8,7 @@
 <script setup>
 import Navbar from '@/components/Navbar.vue'
 import { ref, watchEffect } from 'vue'
-import client from "@/axios/client.ts"
+import client from '@/axios/client.ts'
 import { useUserStore } from '@/stores/user'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 import APIS from '@/constants/apis.ts'
@@ -23,8 +23,8 @@ watchEffect(() => {
     client
       .get(APIS.GET_ACCOUNT, {
         headers: {
-          Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       })
       .then((response) => {
         client.defaults.headers.common.Authorization = `Bearer ${token}`
@@ -33,9 +33,7 @@ watchEffect(() => {
       })
       .catch(() => {
         userStore.setUser(undefined)
-        localStorage.removeItem(
-          LOCAL_STORAGE_KEYS.TOKEN_KEY
-        )
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
         client.defaults.headers.common.Authorization = ``
       })
   }
@@ -43,9 +41,6 @@ watchEffect(() => {
   shouldShowNavbar.value = !currentPath.startsWith('/sign-up') && !currentPath.startsWith('/login')
 })
 </script>
-<script>
-
-
-</script>
+<script></script>
 
 <style lang="scss" scoped></style>
