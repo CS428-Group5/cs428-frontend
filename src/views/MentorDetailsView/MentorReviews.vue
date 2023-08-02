@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedin" class="col-span-6 flex flex-col p-2">
+  <div v-if="isLogin" class="col-span-6 flex flex-col p-2">
     <h1 class="text-xl font-bold">Reviews</h1>
     <form @submit.prevent="submitReview">
       <input
@@ -60,14 +60,23 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
+const isLogin = ref(false)
+const isMentor = ref(false)
 
-const isLoggedin = ref(true)
+watchEffect(() => {
+  isLogin.value = userStore.getUser != undefined
+  isMentor.value = userStore.getUser?.user?.is_mentor
+})
+
 </script>
 
 <script>
 import client from '../../axios/client'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 export default {
   props: ['reviews'],
@@ -79,12 +88,14 @@ export default {
         rating: 0,
         content: ''
       },
-      error: ''
+      error: '',
+      user: userStore.getUser.user,
     }
   },
   mounted() {
-    console.log(this.router.params.id)
+    // console.log(this.router.params.id)
     this.form.mentor_id = this.router.params.id
+    console.log(this.user)
   },
   methods: {
     calculateAverageRating(reviews) {
@@ -116,7 +127,16 @@ export default {
 
       await client
         .post('/mentors/reviews', this.form)
-        .then((res) => console.log('Add review successfully'))
+        .then((res) => {
+          // console.log('Add review successfully')
+          this.reviews.push({
+            content: this.form.content,
+            rating: this.form.rating,
+            firstname: this.user.first_name,
+            lastname: this.user.last_name,
+            avatar: this.user.avatar,
+          })
+        })
         .catch((e) => {
           this.error = e.response.data
         })
