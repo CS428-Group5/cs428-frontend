@@ -11,6 +11,8 @@
       name="from"
       id="from"
       class="px-6 py-4 bg-gray-lightest rounded-2xl col-span-6 focus:outline-none"
+      v-model="nameQuery"
+      v-on:keyup.enter="searchMentor"
     />
     <div v-if="!isLogin" class="col-span-3 flex justify-end gap-6">
       <router-link :to="{ name: 'signup' }">
@@ -60,6 +62,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 import MessageTextOutline from 'vue-material-design-icons/MessageTextOutline.vue'
 import BellOutline from 'vue-material-design-icons/BellOutline.vue'
@@ -68,7 +71,10 @@ import { useUserStore } from '@/stores/user'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 
 const userStore = useUserStore()
+const router = useRouter()
+
 const showDropDown = ref(false)
+const nameQuery = ref('')
 
 const props = defineProps({
   isLogin: Boolean,
@@ -91,5 +97,9 @@ function logoutAccount() {
     .catch((e) => {
       console.log(e)
     })
+}
+
+function searchMentor() {
+  router.push({ name: 'mentors.list', query: { name: nameQuery.value } })
 }
 </script>
