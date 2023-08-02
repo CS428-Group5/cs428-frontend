@@ -42,7 +42,6 @@
         <ul v-if="!isMentor">
           <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Session Inventory</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
           <li @click="logoutAccount" class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>
@@ -50,8 +49,6 @@
         <ul v-else>
           <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Session Inventory</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Time Slot Management</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
           <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
           <li @click="logoutAccount" class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>

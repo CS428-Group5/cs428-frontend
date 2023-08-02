@@ -9,7 +9,8 @@
             <p class="text-2xl font-bold mb-4">Order Summary</p>
             <p class="text-xl mb-2">Mentorship session</p>
             <p class="mb-2">Mentor: Darlene Robertson</p>
-            <p class="mb-8">Quantity: 2</p>
+            <p class="mb-2">Date: 2021-10-10</p>
+            <p class="mb-8">Time: 10:00 - 11:00</p>
             <hr class="border-t border-gray-light mb-8" />
             <div class="flex justify-between">
               <p class="text-xl font-bold">Total</p>
