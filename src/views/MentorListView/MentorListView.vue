@@ -60,6 +60,7 @@ const selectedExpertises = ref([])
 const selectedExperiences = ref([])
 const priceFrom = ref()
 const priceTo = ref()
+const nameQuery = ref()
 
 function updateExpertise(newExpertises) {
   selectedExpertises.value = newExpertises
