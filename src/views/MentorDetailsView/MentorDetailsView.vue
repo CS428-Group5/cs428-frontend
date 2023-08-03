@@ -46,7 +46,7 @@ export default {
   },
   mounted() {
     client
-      .get(`/mentors/${this.router.params.id}`)
+      .get(`/mentors/${this.router.params.mentor_id}`)
       .then((res) => {
         this.mentor = res.data
         this.mentor.fullname = this.mentor.firstname + ' ' + this.mentor.lastname
@@ -58,7 +58,7 @@ export default {
       })
 
     client
-      .get(`/mentors/${this.router.params.id}/reviews`)
+      .get(`/mentors/${this.router.params.mentor_id}/reviews`)
       .then((res) => {
         this.reviews = res.data
       })
