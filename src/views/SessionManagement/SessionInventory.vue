@@ -1,6 +1,6 @@
 <template>
   <div v-if="isMentor">
-    <SessionList></SessionList>
+    <MentorSessionList></MentorSessionList>
   </div>
   <div v-else class="wrapper">
     <h1 class="text-center text-2xl font-bold">Booking Management</h1>
@@ -34,7 +34,7 @@ import client from '../../axios/client'
 import { ref, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 
-import SessionList from './SessionList.vue'
+import MentorSessionList from './MentorSessionList.vue'
 
 const userStore = useUserStore()
 const isMentor = ref(false)
