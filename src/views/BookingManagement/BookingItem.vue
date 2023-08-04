@@ -1,7 +1,8 @@
 <template>
     <div class="border border-solid border-gray-light rounded-2xl p-4 mb-6">
-        <p class="font-bold text-lg mb-2">Mentorship session with {{ session.mentor_first_name + ' ' +
-            session.mentor_last_name }}</p>
+        <p class="font-bold text-lg mb-2">Mentorship session with {{ isMentor ? session.mentor_first_name :
+            session.mentee_first_name + ' ' +
+                isMentor ? session.mentor_last_name : session.mentee_last_name }}</p>
         <div class="flex gap-8 mb-4">
             <div class="flex gap-2">
                 <CalendarMonthOutline></CalendarMonthOutline>
