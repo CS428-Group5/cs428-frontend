@@ -9,6 +9,7 @@
           :enable-time-picker="false"
           auto-apply
           :close-on-auto-apply="false"
+          :min-date="new Date(new Date().setDate(new Date().getDate() + 2))"
         >
         </VueDatePicker>
         <div class="session_time_wrapper">

@@ -4,23 +4,23 @@
   </div>
   <div v-else class="wrapper">
     <h1 class="text-center text-2xl font-bold">Booking Management</h1>
-    <div v-for="(session, id) in bookedSessions" class="item">
-      <div class="text-base font-bold">Mentorship session with {{ session.mentorName }}</div>
+    <div v-for="(session, id) in allBookedSessions" class="item">
+      <div class="text-base font-bold">Mentorship session with {{ session.mentor_first_name + ' ' + session.mentor_last_name }}</div>
       <div class="flex my-4 gap-6">
         <div class="flex text-sm font-normal items-center">
           <Calendar></Calendar>
           <div class="ml-2">{{ session.session_date }}</div>
         </div>
-        <div class="flex text-sm font-normal">
+        <div class="flex text-sm font-normal items-center">
           <ClockOutline></ClockOutline>
-          <div class="ml-2">{{ session.session_time }}</div>
+          <div class="ml-2">{{ session.session_time.substring(0, 5) }}</div>
         </div>
       </div>
       <div class="buttons">
         <button class="meet_btn" @click="goToMeeting(session)">Meet</button>
         <button class="reject_btn" @click="cancelBookedSession(session)">Reject</button>
       </div>
-      <hr class="mt-6" v-if="id != bookedSessions.length - 1" />
+      <hr class="mt-6" v-if="id != allBookedSessions.length - 1" />
     </div>
   </div>
 </template>
@@ -47,38 +47,11 @@ watchEffect(() => {
 <script>
 import { useUserStore } from '@/stores/user'
 export default {
-  props: ['allBookedSessions'],
   data() {
     return {
-      bookedSessions: [
-        {
-          id:1,
-          mentorName: 'jjk',
-          session_date: '01/09/2023',
-          session_time: '20:00',
-        },
-        {
-          id:2,
-          mentorName: 'kth',
-          session_date: '31/12/2023',
-          session_time: '17:30',
-        },
-        {
-          id:3,
-          mentorName: 'pjm',
-          session_date: '13/10/2023',
-          session_time: '19:15',
-        },
-        {
-          id:4,
-          mentorName: 'knj',
-          session_date: '12/09/2023',
-          session_time: '10:30',
-        },
-      ],
       allBookedSessions: [],
-      user: useUserStore().getUser,
-      error: '',
+      user: useUserStore().getUser.user,
+      error: ''
     }
   },
   mounted() {
@@ -94,7 +67,7 @@ export default {
       await client
         .get(`/session/booked_session/${this.user.id}/all`)
         .then((res) => {
-          console.log('res.data:', res.data)
+          // console.log('res.data:', res.data)
           this.allBookedSessions = res.data
         })
         .catch((e) => {
@@ -102,21 +75,24 @@ export default {
           this.errors.push(e)
         })
     },
-    goToMeeting(session){
+    goToMeeting(session) {
       console.log('go go')
     },
-    async cancelBookedSession(session){
+    async cancelBookedSession(session) {
       await client
         .post(`/session/booked_session/${session.id}/canceled`)
         .then((res) => {
           console.log('Cancel')
-          this.allBookedSessions = this.allBookedSessions.filter(obj => {return obj.id !== session.id;});
+          this.allBookedSessions = this.allBookedSessions.filter((obj) => {
+            return obj.id !== session.id
+          })
         })
         .catch((e) => {
           console.log('error,', e)
           this.errors.push(e)
-        })}
+        })
     }
+  }
 }
 </script>
 

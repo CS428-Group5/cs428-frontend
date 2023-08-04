@@ -9,7 +9,8 @@
         "
       />
 
-      <div class="text-blue mt-3">
+      <div class="text-blue mt-3 flex items-center justify-evenly w-9/10">
+        <CameraOutlineIcon></CameraOutlineIcon>
         <div class="text-center">Change avatar</div>
       </div>
     </div>
@@ -85,7 +86,7 @@
 
 <script setup>
 import Image from '../MentorDetailsView/Image.vue'
-import CameraOutline from 'vue-material-design-icons/CameraOutline.vue'
+import CameraOutlineIcon from 'vue-material-design-icons/CameraOutline.vue'
 
 import client from '@/axios/client.ts'
 import { ref, watchEffect } from 'vue'
