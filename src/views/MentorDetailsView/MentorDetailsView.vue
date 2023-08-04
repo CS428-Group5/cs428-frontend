@@ -45,6 +45,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.router.params);
     client
       .get(`/mentors/${this.router.params.mentor_id}`)
       .then((res) => {

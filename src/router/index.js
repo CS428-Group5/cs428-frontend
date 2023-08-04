@@ -54,15 +54,20 @@ const router = createRouter({
       name: 'fav',
       component: () => import('../views/Favmentor.vue')
     },
-    // {
-    //   path: '/sessions',
-    //   name: 'sessions',
-    //   component: () => import('../views/SessionManagement/SessionList.vue')
-    // },
     {
-      path: '/session/:mentor_id/mentor_sessions/all',
-      name: 'mentor.sessions',
-      component: () => import('../views/SessionManagement/ChoosingSession.vue')
+      path: '/session/:mentor_id/add-session',
+      name: 'mentor.addSession',
+      component: () => import('../views/SessionManagement/AddSession.vue')
+    },
+    {
+      path: '/session/:mentor_id/choose-session',
+      name: 'mentee.chooseSession',
+      component: () => import('../views/SessionManagement/ChooseSession.vue')
+    },
+    {
+      path: '/session/inventory-session',
+      name: 'inventory',
+      component: () => import('../views/SessionManagement/SessionInventory.vue')
     },
     {
       path: '/history',

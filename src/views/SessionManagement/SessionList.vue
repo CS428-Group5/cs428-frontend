@@ -11,5 +11,4 @@
 
 <script setup>
 import SessionItem from './SessionItem.vue';
-import ChoosingSession from './ChoosingSession.vue'
 </script>
