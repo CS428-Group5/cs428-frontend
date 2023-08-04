@@ -1,42 +1,30 @@
 <template>
-  <div>
-    <VueDatePicker
-      v-model="date"
-      :enable-time-picker="false"
-      auto-apply
-      :close-on-auto-apply="false"
-      :allowed-dates="allowedDates"
-    >
-    </VueDatePicker>
+  <div class="grid grid-cols-12 gap-x-6">
+    <div class="col-start-4 col-span-6">
 
-    <h2 class="mt-6 text-left">
-      {{ this.date.toLocaleDateString('en-GB') }}
-    </h2>
-    <!-- <div v-if="this.allSessions.length == 0">No sessions available</div> -->
-    <div class="session_time_wrapper">
-      <div
-        v-for="session in allSessions.filter(
+      <VueDatePicker v-model="date" :enable-time-picker="false" auto-apply :close-on-auto-apply="false"
+        :allowed-dates="allowedDates">
+      </VueDatePicker>
+
+      <h2 class="mt-12 text-center text-xl font-bold">
+        {{ this.date.toLocaleDateString('en-GB') }}
+      </h2>
+      <!-- <div v-if="this.allSessions.length == 0">No sessions available</div> -->
+      <div class="session_time_wrapper mt-12">
+        <div v-for="session in allSessions.filter(
           (session) =>
             Date.parse(session.session_date.replaceAll('-', '/')) ==
-              Date.parse(this.date.toLocaleDateString()) &&
+            Date.parse(this.date.toLocaleDateString()) &&
             session.mentor_id == this.router.params.mentor_id
-        )"
-        :key="session.id"
-        :class="session.id == temp ? 'button_click' : ''"
-        class="session_time"
-        @click="clickSession(session)"
-      >
-        <div class="text-center">{{ session.session_time.substring(0, 5) }}</div>
+        )" :key="session.id" :class="session.id == temp ? 'button_click' : ''" class="session_time"
+          @click="clickSession(session)">
+          <div class="text-center">{{ session.session_time.substring(0, 5) }}</div>
+        </div>
+        <button v-if="checkHaveSession(this.date)" type="submit" @click="submitBookSession"
+          class="text-base w-fit h-12 px-4 py-3 mr-3 text-white rounded-xl" style="background-color: #599bff">
+          Book
+        </button>
       </div>
-      <button
-        v-if="checkHaveSession(this.date)"
-        type="submit"
-        @click="submitBookSession"
-        class="text-base w-fit h-12 px-4 py-3 mr-3 text-white rounded-xl"
-        style="background-color: #599bff"
-      >
-        Book
-      </button>
     </div>
   </div>
 </template>
@@ -48,7 +36,7 @@ import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
 
-watchEffect(() => {})
+watchEffect(() => { })
 </script>
 
 <script>
@@ -71,7 +59,7 @@ export default {
       date: ref(new Date()),
       temp: ref(),
       allBookedSession: [],
-      
+
     }
   },
   mounted() {
@@ -157,10 +145,9 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 70%;
-  margin: 5% auto 0;
   column-gap: 10%;
 }
+
 .session_time {
   width: 15%;
   border-radius: 10px;
@@ -169,6 +156,7 @@ export default {
   padding: 1% 3%;
   margin-bottom: 3%;
 }
+
 .session_time:hover {
   border: 1px solid #599bff;
   color: #599bff;
