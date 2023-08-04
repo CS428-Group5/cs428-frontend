@@ -42,17 +42,36 @@
         class="z-10 absolute top-14 right-0 bg-white divide-y divide-gray-100 rounded-lg shadow"
       >
         <ul v-if="!isMentor">
-          <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
+          <router-link :to="{ name: 'users', params: {id: userStore.getUser.user.id} }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
+          </router-link>
+
+          <router-link :to="{ name: 'fav' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
+          </router-link>
+          <router-link :to="{ name: 'manage.booking' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
+          </router-link>
+          <router-link :to="{ name: 'history' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
+          </router-link>
+
           <li @click="logoutAccount" class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>
         </ul>
         <ul v-else>
-          <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
-          <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
+          <router-link :to="{ name: 'users', params: {id: userStore.getUser.user.id} }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
+          </router-link>
+          <router-link :to="{ name: 'fav' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
+          </router-link>
+          <router-link :to="{ name: 'manage.booking' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
+          </router-link>
+          <router-link :to="{ name: 'history' }">
+            <li class="px-4 py-2 hover:bg-gray-lightest">Purchase History</li>
+          </router-link>
+
           <li @click="logoutAccount" class="px-4 py-2 hover:bg-gray-lightest text-red">Log Out</li>
         </ul>
       </div>
