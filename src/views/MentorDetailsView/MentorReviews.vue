@@ -1,38 +1,26 @@
 <template>
-  <div v-if="isLogin" class="col-span-6 flex flex-col p-2">
-    <h1 class="text-xl font-bold">Reviews</h1>
-    <form @submit.prevent="submitReview">
-      <input
-        class="bg-gray-lightest rounded-xl w-full h-11 px-6 py-4 mt-3"
-        placeholder="Your comment"
-        v-model="form.content"
-      />
+  <div class="col-span-6 flex flex-col p-2">
+    <div v-if="isLogin">
+      <h1 class="text-xl font-bold">Reviews</h1>
+      <form @submit.prevent="submitReview">
+        <input class="bg-gray-lightest rounded-xl w-full h-11 px-6 py-4 mt-3" placeholder="Your comment"
+          v-model="form.content" />
 
-      <span class="flex flex-row mt-4">
-        <p class="my-auto text-base mr-3">Which score will you rate your mentor?</p>
-        <div class="flex flex-col px-1" v-for="i in 5" :key="i">
-          <div
-            class="ratingButton"
-            :id="`ratingButton${i}`"
-            style="background-color: #ffffff"
-            @mouseenter="addHoverClass(i)"
-            @mouseleave="removeHoverClass(i)"
-            @click="addClickClass(i)"
-          >
-            {{ i }}
+        <span class="flex flex-row mt-4">
+          <p class="my-auto text-base mr-3">Which score will you rate your mentor?</p>
+          <div class="flex flex-col px-1" v-for="i in 5" :key="i">
+            <div class="ratingButton" :id="`ratingButton${i}`" style="background-color: #ffffff"
+              @mouseenter="addHoverClass(i)" @mouseleave="removeHoverClass(i)" @click="addClickClass(i)">
+              {{ i }}
+            </div>
           </div>
-        </div>
-      </span>
+        </span>
 
-      <button
-        class="w-fill h-12 px-4 py-3 mt-4 text-white rounded-xl"
-        style="background-color: #599bff"
-        type="submit"
-      >
-        Submit
-      </button>
-    </form>
-
+        <button class="w-fill h-12 px-4 py-3 mt-4 text-white rounded-xl" style="background-color: #599bff" type="submit">
+          Submit
+        </button>
+      </form>
+    </div>
     <div class="mt-4">
       <h3 style="size: 18px">
         Rating:
@@ -40,15 +28,10 @@
       </h3>
       <div class="my-4" v-for="(review, index) in reviews" :key="index">
         <div class="flex flex-row">
-          <img
-            :src="
-              review.avatar
-                ? review.avatar
-                : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
-            "
-            class="w-10 h-10 rounded-full mr-2"
-            alt=""
-          />
+          <img :src="review.avatar
+            ? review.avatar
+            : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
+            " class="w-10 h-10 rounded-full mr-2" alt="" />
           <p class="font-bold my-auto">{{ review.lastname + ' ' + review.firstname }}</p>
         </div>
         <p class="text-blue-darkest my-2">Score: {{ review.rating }}</p>
@@ -89,7 +72,7 @@ export default {
         content: ''
       },
       error: '',
-      user: userStore.getUser.user,
+      user: userStore.getUser?.user,
     }
   },
   mounted() {
