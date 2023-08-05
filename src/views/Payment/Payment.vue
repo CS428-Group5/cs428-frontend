@@ -8,19 +8,28 @@
           <div class="mb-12">
             <p class="text-2xl font-bold mb-4">Order Summary</p>
             <p class="text-xl mb-2">Mentorship session</p>
-            <p class="mb-2">Mentor: Darlene Robertson</p>
-            <p class="mb-2">Date: 2021-10-10</p>
-            <p class="mb-8">Time: 10:00 - 11:00</p>
+            <p class="mb-2">Mentor: {{ mentor.firstname + ' ' + mentor.lastname }}</p>
+            <p class="mb-2">
+              Date:
+              {{
+                new Intl.DateTimeFormat('en-US').format(
+                  new Date(sessionDetails.session_date + 'T00:00:00')
+                )
+              }}
+            </p>
+            <p class="mb-8">Time: {{ sessionDetails.session_time.slice(0, 5) }}</p>
             <hr class="border-t border-gray-light mb-8" />
             <div class="flex justify-between">
               <p class="text-xl font-bold">Total</p>
-              <p class="text-xl font-bold">{{ amount }}đ</p>
+              <p class="text-xl font-bold">
+                {{ Math.trunc(mentor.default_session_price).toLocaleString('en') }}đ
+              </p>
             </div>
           </div>
           <div>
             <p class="text-2xl font-bold mb-4">Personal Information</p>
-            <p class="mb-4">Name: John Doe</p>
-            <p>Email: johndoe@gmail.com</p>
+            <p class="mb-4">Name: {{ user.user.first_name + ' ' + user.user.last_name }}</p>
+            <p>Email: {{ user.user.email }}</p>
           </div>
         </div>
         <button
@@ -38,14 +47,33 @@
 <script setup>
 import { ref } from 'vue'
 import client from '@/axios/client'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
-const amount = ref(100000)
+const route = useRoute()
+
+const userStore = useUserStore()
+
+const sessionDetails = ref()
+const mentor = ref()
+const user = ref(userStore.getUser)
+
+console.log(user.value)
+
+client.get(`/session/mentor_sessions/${route.query.mentor_session_id}`).then((response) => {
+  sessionDetails.value = response.data
+
+  client.get(`/mentors/${sessionDetails.value.mentor_id}`).then((response) => {
+    console.log(response.data)
+    mentor.value = response.data
+  })
+})
 
 async function processPayment() {
   const response = await client.post('/payment/create_payment_url', null, {
     params: {
-      order_id: generateRandomAlphanumeric(20),
-      amount: amount.value
+      order_id: generateRandomAlphanumeric(30),
+      amount: parseInt(mentor.value.default_session_price)
     }
   })
 
