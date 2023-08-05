@@ -42,12 +42,12 @@ const router = createRouter({
     {
       path: '/payment',
       name: 'payment',
-      component: () => import('@/views/Payment.vue')
+      component: () => import('@/views/Payment/Payment.vue')
     },
     {
       path: '/payment_return',
       name: 'success',
-      component: () => import('@/views/PaymentReturn.vue')
+      component: () => import('@/views/Payment/PaymentReturn.vue')
     },
     {
       path: '/fav',
@@ -73,6 +73,11 @@ const router = createRouter({
       path: '/history',
       name: 'history',
       component: () => import('../views/PurchaseHistory.vue')
+    },
+    {
+      path: '/manage-booking',
+      name: 'manage.booking',
+      component: () => import('../views/BookingManagement/BookingManagement.vue')
     }
   ]
 })

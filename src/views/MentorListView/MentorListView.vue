@@ -51,6 +51,9 @@ import FilterList from './FilterList.vue'
 
 import { ref } from 'vue'
 import client from '@/axios/client'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 
 const experiences = ['1-3 years', '3-5 years', '>5 years']
 const expertises = ref([])
@@ -60,6 +63,7 @@ const selectedExpertises = ref([])
 const selectedExperiences = ref([])
 const priceFrom = ref()
 const priceTo = ref()
+const nameQuery = ref(route.query.name)
 
 function updateExpertise(newExpertises) {
   selectedExpertises.value = newExpertises
@@ -76,7 +80,8 @@ function fetchMentors() {
         expertise: selectedExpertises.value,
         experience: selectedExperiences.value,
         price_from: priceFrom.value ? priceFrom.value : 0,
-        price_to: priceTo.value ? priceTo.value : 1000000000
+        price_to: priceTo.value ? priceTo.value : 1000000000,
+        name: nameQuery.value
       },
       paramsSerializer: {
         indexes: null

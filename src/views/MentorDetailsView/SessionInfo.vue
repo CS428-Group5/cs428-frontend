@@ -5,14 +5,11 @@
     <h2 class="mt-4 text-2xl font-bold">
       {{ Math.trunc(sessionPrice).toLocaleString('en') }}d / session
     </h2>
-    <div class="mt-4 flex flex-row">
-      <button class="w-10 h-10 text-black rounded-xl" style="background-color: #d9e6fa">-</button>
-      <p class="mx-4 my-auto text-base">1</p>
-      <button class="w-10 h-10 text-black rounded-xl" style="background-color: #d9e6fa">+</button>
-      <small class="text-base ml-6 my-auto">Number of sessions left: {{ remainingSession }}</small>
-    </div>
     <div class="mt-4 flex flex-row space-x-13">
-      <router-link :to="{ name: 'mentor.addSession' }" v-if="isMentor && userStore.getUser.id == route.params.mentor_id">
+      <router-link
+        :to="{ name: 'mentor.addSession' }"
+        v-if="isMentor && userStore.getUser.id == route.params.mentor_id"
+      >
         <button
           class="text-base w-fill h-12 px-4 py-3 mr-3 text-blue-dark border border-blue-dark rounded-xl"
           style="background-color: #ffffff"
