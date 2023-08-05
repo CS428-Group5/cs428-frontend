@@ -1,38 +1,40 @@
 <template>
-  <div>
-    <VueDatePicker
-      v-model="date"
-      :enable-time-picker="false"
-      auto-apply
-      :close-on-auto-apply="false"
-      :allowed-dates="allowedDates"
-    >
-    </VueDatePicker>
-
-    <h2 class="mt-6 text-left">
-      {{ this.date.toLocaleDateString('en-GB') }}
-    </h2>
-    <!-- <div v-if="this.allSessions.length == 0">No sessions available</div> -->
-    <div class="session_time_wrapper">
-      <div
-        v-for="session in allSessions.filter(
-          (session) =>
-            Date.parse(session.session_date.replaceAll('-', '/')) ==
-              Date.parse(this.date.toLocaleDateString()) &&
-            session.mentor_id == this.router.params.mentor_id
-        )"
-        :key="session.id"
-        :class="session.id == temp ? 'button_click' : ''"
-        class="session_time"
-        @click="clickSession(session)"
+  <div class="grid grid-cols-12 gap-x-6">
+    <div class="col-start-4 col-span-6">
+      <VueDatePicker
+        v-model="date"
+        :enable-time-picker="false"
+        auto-apply
+        :close-on-auto-apply="false"
+        :allowed-dates="allowedDates"
       >
-        <div class="text-center">{{ session.session_time.substring(0, 5) }}</div>
+      </VueDatePicker>
+
+      <h2 class="mt-12 text-center text-xl font-bold">
+        {{ this.date.toLocaleDateString('en-GB') }}
+      </h2>
+      <!-- <div v-if="this.allSessions.length == 0">No sessions available</div> -->
+      <div class="mt-12 grid grid-cols-4 gap-4">
+        <div
+          v-for="session in allSessions.filter(
+            (session) =>
+              Date.parse(session.session_date.replaceAll('-', '/')) ==
+                Date.parse(this.date.toLocaleDateString()) &&
+              session.mentor_id == this.router.params.mentor_id
+          )"
+          :key="session.id"
+          :class="session.id == temp ? 'button_click' : ''"
+          class="border border-solid rounded-2xl px-6 py-3"
+          @click="clickSession(session)"
+        >
+          <div class="text-center font-bold">{{ session.session_time.substring(0, 5) }}</div>
+        </div>
       </div>
       <button
         v-if="checkHaveSession(this.date)"
         type="submit"
         @click="submitBookSession"
-        class="text-base w-fit h-12 px-4 py-3 mr-3 text-white rounded-xl"
+        class="mt-12 text-base w-fit h-12 px-4 py-3 mr-3 text-white rounded-xl"
         style="background-color: #599bff"
       >
         Book
@@ -70,8 +72,7 @@ export default {
       allowedDates: [],
       date: ref(new Date()),
       temp: ref(),
-      allBookedSession: [],
-      
+      allBookedSession: []
     }
   },
   mounted() {
@@ -124,7 +125,7 @@ export default {
         .post(`/session/booked_session/${this.temp}`)
         .then((res) => {
           // console.log('Book session successfully')
-          console.log('res.data:', res.data);
+          console.log('res.data:', res.data)
         })
         .catch((e) => {
           this.error = e.response.data
@@ -141,7 +142,7 @@ export default {
     clickSession(session) {
       console.log('session:', session)
       this.temp = session.id
-    },
+    }
   }
 }
 </script>
@@ -157,10 +158,9 @@ export default {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 70%;
-  margin: 5% auto 0;
   column-gap: 10%;
 }
+
 .session_time {
   width: 15%;
   border-radius: 10px;
@@ -169,6 +169,7 @@ export default {
   padding: 1% 3%;
   margin-bottom: 3%;
 }
+
 .session_time:hover {
   border: 1px solid #599bff;
   color: #599bff;

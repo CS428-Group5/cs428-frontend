@@ -6,7 +6,10 @@
       {{ Math.trunc(sessionPrice).toLocaleString('en') }}d / session
     </h2>
     <div class="mt-4 flex flex-row space-x-13">
-      <router-link :to="{ name: 'mentor.addSession' }" v-if="isMentor && userStore.getUser.id == route.params.mentor_id">
+      <router-link
+        :to="{ name: 'mentor.addSession' }"
+        v-if="isMentor && userStore.getUser.id == route.params.mentor_id"
+      >
         <button
           class="text-base w-fill h-12 px-4 py-3 mr-3 text-blue-dark border border-blue-dark rounded-xl"
           style="background-color: #ffffff"
