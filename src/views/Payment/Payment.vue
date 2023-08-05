@@ -72,24 +72,23 @@ client.get(`/session/mentor_sessions/${route.query.mentor_session_id}`).then((re
 async function processPayment() {
   const response = await client.post('/payment/create_payment_url', null, {
     params: {
-      order_id: generateRandomAlphanumeric(30),
+      order_id: generateIDWithTime(sessionDetails.value.id),
       amount: parseInt(mentor.value.default_session_price)
     }
   })
 
+  console.log(generateIDWithTime(sessionDetails.value.id))
   const payment_url = response.data.payment_url
   window.location.href = payment_url
 }
 
-function generateRandomAlphanumeric(length) {
-  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-  let result = ''
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length)
-    result += charset.charAt(randomIndex)
-  }
-
-  return result
+function generateIDWithTime(baseID) {
+  const currentTime = new Date()
+  const hours = currentTime.getHours().toString().padStart(2, '0')
+  const minutes = currentTime.getMinutes().toString().padStart(2, '0')
+  const seconds = currentTime.getSeconds().toString().padStart(2, '0')
+  const currentTimeString = `${hours}${minutes}${seconds}`
+  const generatedID = `${baseID}${currentTimeString}`
+  return generatedID
 }
 </script>
