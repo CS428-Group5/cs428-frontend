@@ -11,7 +11,6 @@ import { useUserStore } from '@/stores/user'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 import APIS from '@/constants/apis.ts'
 
-const shouldShowNavbar = ref(true)
 const userStore = useUserStore()
 const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
 
@@ -40,9 +39,6 @@ watchEffect(() => {
         client.defaults.headers.common.Authorization = ``
       })
   }
-
-  const currentPath = window.location.pathname
-  shouldShowNavbar.value = !currentPath.startsWith('/sign-up') && !currentPath.startsWith('/login')
 })
 </script>
 <script></script>
