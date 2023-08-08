@@ -20,4 +20,6 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const sessionId = route.query.vnp_TxnRef
+
+console.log(route.query)
 </script>
