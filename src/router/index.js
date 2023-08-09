@@ -73,6 +73,11 @@ const router = createRouter({
       path: '/manage-booking',
       name: 'manage.booking',
       component: () => import('../views/BookingManagement/BookingManagement.vue')
+    },
+    {
+      path: '/favorite-mentors',
+      name: 'mentors.favorite',
+      component: () => import('../views/FavoriteMentorsView/FavoriteMentorsView.vue')
     }
   ]
 })
