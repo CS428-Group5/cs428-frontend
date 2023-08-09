@@ -17,9 +17,27 @@
 
 <script setup>
 import { useRoute } from 'vue-router'
+import client from '@/axios/client'
+import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 
 const route = useRoute()
 const sessionId = route.query.vnp_TxnRef
+const baseId = sessionId.slice(0, sessionId.length - 6)
 
-console.log(route.query)
+console.log(baseId)
+console.log(localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY))
+
+client
+  .post(
+    `/session/booked_session/${baseId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)}`
+      }
+    }
+  )
+  .then((response) => {
+    console.log(response.data)
+  })
 </script>

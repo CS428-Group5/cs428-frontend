@@ -26,7 +26,6 @@ watchEffect(() => {
         }
       })
       .then((response) => {
-        // console.log(response.data);
         client.defaults.headers.common.Authorization = `Bearer ${token}`
         userStore.setUser(response.data)
 
