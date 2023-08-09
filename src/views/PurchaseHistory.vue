@@ -6,11 +6,12 @@
         <PurchaseItemMentee>
         </PurchaseItemMentee>
       </div>
-      <div v-else v-for="n in 3" :key="n">
+      <div v-else v-for="n in 3" :key="n + 1">
         <PurchaseItemMentor>
         </PurchaseItemMentor>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
