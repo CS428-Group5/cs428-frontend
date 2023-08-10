@@ -8,7 +8,9 @@
           <div class="mb-12">
             <p class="text-2xl font-bold mb-4">Order Summary</p>
             <p class="text-xl mb-2">Mentorship session</p>
-            <p class="mb-2">Mentor: {{ mentor.firstname + ' ' + mentor.lastname }}</p>
+            <p class="mb-2">
+              Mentor: {{ sessionDetails.mentor_first_name + ' ' + sessionDetails.mentor_last_name }}
+            </p>
             <p class="mb-2">
               Date:
               {{
@@ -22,7 +24,7 @@
             <div class="flex justify-between">
               <p class="text-xl font-bold">Total</p>
               <p class="text-xl font-bold">
-                {{ Math.trunc(mentor.default_session_price).toLocaleString('en') }}đ
+                {{ Math.trunc(sessionDetails.session_price).toLocaleString('en') }}đ
               </p>
             </div>
           </div>
@@ -55,25 +57,20 @@ const route = useRoute()
 const userStore = useUserStore()
 
 const sessionDetails = ref()
-const mentor = ref()
 const user = ref(userStore.getUser)
 
 console.log(user.value)
 
 client.get(`/session/mentor_sessions/${route.query.mentor_session_id}`).then((response) => {
   sessionDetails.value = response.data
-
-  client.get(`/mentors/${sessionDetails.value.mentor_id}`).then((response) => {
-    console.log(response.data)
-    mentor.value = response.data
-  })
+  console.log(sessionDetails.value)
 })
 
 async function processPayment() {
   const response = await client.post('/payment/create_payment_url', null, {
     params: {
       order_id: generateIDWithTime(sessionDetails.value.id),
-      amount: parseInt(mentor.value.default_session_price)
+      amount: parseInt(sessionDetails.value.session_price)
     }
   })
 
