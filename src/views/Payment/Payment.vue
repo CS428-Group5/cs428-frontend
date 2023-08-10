@@ -63,7 +63,6 @@ console.log(user.value)
 
 client.get(`/session/mentor_sessions/${route.query.mentor_session_id}`).then((response) => {
   sessionDetails.value = response.data
-  console.log(sessionDetails.value)
 })
 
 async function processPayment() {

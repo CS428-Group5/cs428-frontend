@@ -88,7 +88,6 @@ function fetchMentors() {
       }
     })
     .then((res) => {
-      console.log(res.data)
       mentors.value = res.data
     })
     .catch((err) => {
@@ -103,7 +102,6 @@ function applyFilter() {
 client
   .get('/expertises/')
   .then((res) => {
-    console.log(res.data)
     expertises.value = res.data.map((expertise) => expertise.expertise_name)
   })
   .catch((err) => {
