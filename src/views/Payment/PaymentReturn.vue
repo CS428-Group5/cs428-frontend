@@ -3,7 +3,7 @@
     <div class="col-start-3 col-span-8">
       <div class="flex flex-col gap-y-4 items-center">
         <div v-if="responseCode == '00'">
-          <img src="../assets/success.png" alt="success" />
+          <img src="@/assets/success.png" alt="success" />
           <p class="text-3xl font-bold">Payment Successful!</p>
           <p>Let’s have a meeting with your desired mentor to level up your career!</p>
         </div>
