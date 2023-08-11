@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col mx-auto w-2/5 items-center">
+  <div v-if="isLogin" class="flex flex-col mx-auto w-2/5 items-center">
     <div class="w-2/5">
       <Image
         :image="
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div v-if="user.user.is_mentor">
+      <div v-if="isMentor">
         <div>
           <div>Expertise</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
@@ -82,6 +82,8 @@
       </div>
     </div>
   </div>
+
+  <div v-else class="text-center text-3xl">Please login!</div>
 </template>
 
 <script setup>
@@ -91,10 +93,18 @@ import CameraOutlineIcon from 'vue-material-design-icons/CameraOutline.vue'
 import client from '@/axios/client.ts'
 import { ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const isLogin = ref(false)
+const isMentor = ref(false)
+
+watchEffect(() => {
+  isLogin.value = useUserStore().getUser != undefined
+  isMentor.value = useUserStore().getUser?.user?.is_mentor
+})
 
 const router = useRoute()
 const user = ref({})
-const isLoggedin = ref(true)
 
 watchEffect(async () => {
   await client
@@ -102,9 +112,6 @@ watchEffect(async () => {
     .then((res) => {
       user.value = res.data
       console.log(user)
-      console.log('hey')
-      console.log(user.current_company)
-      console.log(user.user)
     })
     .catch((e) => {
       console.log('error,', e)
