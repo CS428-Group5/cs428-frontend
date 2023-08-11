@@ -13,20 +13,20 @@
         >
         </VueDatePicker>
         <div class="session_time_wrapper">
-        <p>Created: </p>
-        <div
-        v-for="session in allSessions.filter(
-          (session) =>
-            Date.parse(session.session_date.replaceAll('-', '/')) ==
-              Date.parse(this.date.toLocaleDateString()) &&
-            session.mentor_id == this.router.params.mentor_id
-        )"
-        :key="session.id"
-        class="session_time"
-      >
-        <div class="text-center">{{ session.session_time.substring(0, 5) }}</div>
-      </div>
-      </div>
+          <p>Created:</p>
+          <div
+            v-for="session in allSessions.filter(
+              (session) =>
+                Date.parse(session.session_date.replaceAll('-', '/')) ==
+                  Date.parse(this.date.toLocaleDateString()) &&
+                session.mentor_id == this.router.params.mentor_id
+            )"
+            :key="session.id"
+            class="session_time"
+          >
+            <div class="text-center">{{ session.session_time.substring(0, 5) }}</div>
+          </div>
+        </div>
         <h2 class="mt-5 mb-2">Choose time</h2>
         <input
           class="bg-gray-lightest rounded-xl w-full h-11 px-6 py-4 mt-3"
@@ -84,23 +84,16 @@ export default {
     }
   },
   mounted() {
-    console.log('mentor_id:', this.router.params.mentor_id)
-    console.log('user:', this.user)
-    console.log('date:', this.date)
-
     this.getAllMentorSessions()
   },
   watch: {
-    date(val, oldVal) {
-      console.log(this.date)
-    }
+    date(val, oldVal) {}
   },
   methods: {
     async getAllMentorSessions() {
       await client
         .get(`/session/${this.router.params.mentor_id}/mentor_sessions/all`)
         .then((res) => {
-          console.log('res.data:', res.data)
           this.allSessions = res.data
         })
         .catch((e) => {
@@ -118,8 +111,6 @@ export default {
       await client
         .post('/session/mentor_sessions', this.formAddSession)
         .then((res) => {
-          // console.log('Add session successfully')
-          console.log('res.data:', res.data);
           this.allSessions.push({
             session_time: this.formAddSession.session_time,
             session_date: this.formAddSession.session_date,
@@ -131,8 +122,8 @@ export default {
           this.error = e.response.data
         })
 
-    // reset
-    },
+      // reset
+    }
   }
 }
 </script>
@@ -161,4 +152,3 @@ export default {
   padding: 1% 3%;
 }
 </style>
-
