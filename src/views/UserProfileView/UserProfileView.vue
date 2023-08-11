@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLogin" class="flex flex-col mx-auto w-2/5 items-center">
+  <div class="flex flex-col mx-auto w-2/5 items-center">
     <div class="w-2/5">
       <Image
         :image="
@@ -19,17 +19,17 @@
       <div>
         <div>First Name</div>
         <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-          {{ this.user.first_name }}
+          {{ user.user.first_name }}
         </div>
       </div>
       <div>
         <div>Last Name</div>
         <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-          {{ user.last_name }}
+          {{ user.user.last_name }}
         </div>
       </div>
 
-      <div v-if="isMentor">
+      <div v-if="user.user.is_mentor">
         <div>
           <div>Expertise</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
@@ -39,7 +39,7 @@
         <div>
           <div>Curent Position</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-            {{ user.current_title }}
+            {{ user.user.current_title }}
           </div>
         </div>
         <div>
@@ -51,7 +51,7 @@
         <div>
           <div>About me</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-            {{ user.about_me }}
+            {{ user.user.about_me }}
           </div>
         </div>
         <div>
@@ -66,13 +66,13 @@
         <div>
           <div>Curent Title</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-            {{ user.current_title }}
+            {{ user.user.current_title }}
           </div>
         </div>
         <div>
           <div>About me</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-            {{ user.about_me }}
+            {{ user.user.about_me }}
           </div>
         </div>
       </div>
@@ -82,61 +82,35 @@
       </div>
     </div>
   </div>
-
-  <div v-else class="text-center text-3xl">
-    Please login!
-  </div>
 </template>
 
 <script setup>
 import Image from '../MentorDetailsView/Image.vue'
 import CameraOutlineIcon from 'vue-material-design-icons/CameraOutline.vue'
 
-import { ref, watchEffect } from 'vue'
-
-const userStore = useUserStore()
-const isLogin = ref(false)
-const isMentor = ref(false)
-
-watchEffect(() => {
-  isLogin.value = userStore.getUser != undefined
-  isMentor.value = userStore.getUser?.user?.is_mentor
-})
-</script>
-
-<script>
 import client from '@/axios/client.ts'
+import { ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 
-export default {
-  data() {
-    return {
-      router: useRoute(),
-      user: useUserStore().getUser?.user,
-      error: [],
-    }
-  },
-  mounted() {
-    console.log('user info:', this.user);
-    console.log('avatar:', this.user.avatar);
-    console.log('first_name:', this.user.first_name);
-    this.getUserInfo()
-  },
-  methods: {
-    async getUserInfo() {
-      await client
-        .get(`/users/${this.router.params.id}`)
-        .then((res) => {
-          this.user = res.data
-        })
-        .catch((e) => {
-          console.log('error,', e)
-          this.error.push(e)
-        })
-    }
-  }
-}
+const router = useRoute()
+const user = ref({})
+const isLoggedin = ref(true)
+
+watchEffect(async () => {
+  await client
+    .get(`/users/${router.params.id}`)
+    .then((res) => {
+      user.value = res.data
+      console.log(user)
+      console.log('hey')
+      console.log(user.current_company)
+      console.log(user.user)
+    })
+    .catch((e) => {
+      console.log('error,', e)
+      this.errors.push(e)
+    })
+})
 </script>
 
 <style lang="scss" scoped></style>
