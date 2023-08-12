@@ -67,7 +67,7 @@ const router = createRouter({
         {
           path: '/history',
           name: 'history',
-          component: () => import('../views/PurchaseHistory.vue')
+          component: () => import('../views/PurchaseHistoryView/PurchaseHistory.vue')
         },
         {
           path: '/manage-booking',
