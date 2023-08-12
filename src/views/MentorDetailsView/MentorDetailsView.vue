@@ -21,7 +21,7 @@
       :experience="mentor.experience"
       :about="mentor.about_me"
     />
-    <MentorReviews :reviews="reviews" />
+    <MentorReviews />
   </section>
 </template>
 
@@ -40,7 +40,6 @@ export default {
     return {
       router: useRoute(),
       mentor: {},
-      reviews: [],
       errors: []
     }
   },
@@ -58,13 +57,6 @@ export default {
         console.log('error,', e)
         this.errors.push(e)
       })
-
-    client
-      .get(`/mentors/${this.router.params.mentor_id}/reviews`)
-      .then((res) => {
-        this.reviews = res.data
-      })
-      .catch((e) => console.log('error,', e))
   }
 }
 </script>

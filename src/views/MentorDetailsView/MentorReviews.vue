@@ -79,10 +79,10 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 
 export default {
-  props: ['reviews'],
   data() {
     return {
       router: useRoute(),
+      reviews: [],
       form: {
         mentor_id: '',
         rating: 0,
@@ -91,6 +91,9 @@ export default {
       errors: [],
       user: userStore.getUser?.user
     }
+  },
+  created() {
+    this.fetchReview()
   },
   mounted() {
     this.form.mentor_id = this.router.params.mentor_id
@@ -120,22 +123,24 @@ export default {
 
       this.form.rating = buttonValue
     },
-    async submitReview() {
+
+    async fetchReview() {
       await client
-        .post('/mentors/reviews', this.form)
+        .get(`/mentors/${this.router.params.mentor_id}/reviews`)
         .then((res) => {
-          this.reviews.push({
-            content: this.form.content,
-            rating: this.form.rating,
-            firstname: this.user.first_name,
-            lastname: this.user.last_name,
-            avatar: this.user.avatar
-          })
+          console.log(res.data)
+          this.reviews = res.data
         })
         .catch((e) => {
           console.log('error,', e)
           this.errors.push(e)
         })
+    },
+    async submitReview() {
+      await client.post('/mentors/reviews', this.form).catch((e) => {
+        console.log('error,', e)
+        this.errors.push(e)
+      })
 
       // reset
       this.form.content = ''
@@ -146,6 +151,8 @@ export default {
         buttons.push(document.getElementById('ratingButton' + i))
       }
       buttons.forEach((b) => b.classList.remove('button-click'))
+
+      this.fetchReview()
     }
   }
 }
