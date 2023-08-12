@@ -36,13 +36,15 @@
 
         <div v-if="isMentor">
           <label for="expertise">Expertise</label>
-          <input
-            id="expertise"
+          <select
             name="expertise"
+            id="expertise"
+            class="bg-gray-lightest rounded-xl w-full h-full px-6 py-4 mb-6 text-base"
             v-model="form.expertise_id"
-            class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base"
-            placeholder="Expertise"
-          />
+          >
+            <option v-for="exp in allExpertises" :selected="exp.id == this.user.expertise" class="expertise_opt" :value="exp.id">{{ exp.expertise_name }}</option>
+          </select>
+
           <label for="current_title">Current Position</label>
           <input
             id="current_title"
@@ -143,6 +145,7 @@ export default {
         current_company: '',
         default_session_price: 0
       },
+      allExpertises: [],
       curExpertise: ''
     }
   },
@@ -155,7 +158,27 @@ export default {
         .get(`/users/${this.router.params.id}`)
         .then((res) => {
           this.user = res.data
-          // console.log('user:', this.user)
+          console.log('user:', this.user)
+        })
+        .catch((e) => {
+          console.log('error,', e)
+        })
+
+      await client
+        .get('/expertises/')
+        .then((res) => {
+          this.allExpertises = res.data
+          // console.log('allExpertises:', this.allExpertises)
+
+          const temp = this.allExpertises.filter((ex) => ex.id === this.user?.expertise)
+          // console.log('temp:', temp)
+          if (temp.length > 0) {
+            this.curExpertise = temp[0].expertise_name
+            // console.log('curExpertise:', this.curExpertise)
+
+            // const allOptions = document.getElementsByClassName('expertise_opt')
+            // console.log('allOptions:', allOptions)
+          }
 
           this.form.first_name = this.user?.user.first_name
           this.form.last_name = this.user?.user.last_name
@@ -166,17 +189,6 @@ export default {
           this.form.current_company = this.user?.current_company
           this.form.default_session_price = this.user?.default_session_price
           // console.log('form:', this.form)
-        })
-        .catch((e) => {
-          console.log('error,', e)
-        })
-
-      await client
-        .get('/expertises/')
-        .then((res) => {
-          const temp = res.data.filter((ex) => ex.id === this.user?.expertise)
-          this.curExpertise = temp[0].expertise_name
-          // console.log('curExpertiseName:', this.curExpertise)
         })
         .catch((e) => {
           console.log('error,', e)
@@ -192,7 +204,7 @@ export default {
           console.log('error,', e)
         })
       this.setIsBase(true)
-    }
+    },
   }
 }
 </script>

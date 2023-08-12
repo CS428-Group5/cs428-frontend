@@ -33,7 +33,7 @@
         <div>
           <div>Expertise</div>
           <div class="bg-gray-lightest rounded-xl w-full px-6 py-4 mt-4 mb-6 text-base">
-            {{ user?.expertise }}
+            {{ curExpertise }}
           </div>
         </div>
         <div>
@@ -93,9 +93,7 @@
 import Image from '../MentorDetailsView/Image.vue'
 import CameraOutlineIcon from 'vue-material-design-icons/CameraOutline.vue'
 
-import client from '@/axios/client.ts'
 import { ref, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
 const isLogin = ref(false)
@@ -105,27 +103,53 @@ watchEffect(() => {
   isLogin.value = useUserStore().getUser != undefined
   isMentor.value = useUserStore().getUser?.user?.is_mentor
 })
-
-const router = useRoute()
-const user = ref({})
-
-watchEffect(async () => {
-  await client
-    .get(`/users/${router.params.id}`)
-    .then((res) => {
-      user.value = res.data
-      // console.log('user:', user.value)
-    })
-    .catch((e) => {
-      console.log('error:,', e)
-    })
-})
 </script>
 
 <script>
+import client from '@/axios/client.ts'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+
 export default {
   props: ['setIsBase'],
+  data() {
+    return {
+      router: useRoute(),
+      user: userStore.getUser?.user,
+      curExpertise: ''
+    }
+  },
+  mounted() {
+    this.getUserInfo()
+  },
   methods: {
+    async getUserInfo() {
+      await client
+        .get(`/users/${this.router.params.id}`)
+        .then((res) => {
+          this.user = res.data
+          console.log('user in viewing:', this.user)
+        })
+        .catch((e) => {
+          console.log('error,', e)
+        })
+
+      await client
+        .get('/expertises/')
+        .then((res) => {
+          const temp = res.data.filter((ex) => ex.id === this.user?.expertise)
+          // console.log('temp:', temp)
+          if (temp.length > 0) {
+            this.curExpertise = temp[0].expertise_name
+            // console.log('curExpertise:', this.curExpertise)
+          }
+        })
+        .catch((e) => {
+          console.log('error,', e)
+        })
+    },
     goToUpdate() {
       this.setIsBase(false)
     }
