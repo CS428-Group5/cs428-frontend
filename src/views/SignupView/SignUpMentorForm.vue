@@ -32,12 +32,9 @@
           v-model="form.expertise"
         >
           <option selected>Select</option>
-          <option value="Data Science">Data Science</option>
-          <option value="ML/AI">ML/AI</option>
-          <option value="Web Developer">Web Developer</option>
-          <option value="Security">Security</option>
-          <option value="Quality Assurance">Quality Assurance</option>
-          <option value="Testing">Testing</option>
+          <option v-for="expertise in expertises" :value="expertise" :key="expertise">
+            {{ expertise }}
+          </option>
         </select>
       </div>
 
@@ -93,6 +90,7 @@
 import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 import client from '../../axios/client.ts'
 </script>
+
 <script>
 export default {
   name: 'SignUpMentorForm',
@@ -100,8 +98,19 @@ export default {
 
   data() {
     return {
-      error: ''
+      error: '',
+      expertises: []
     }
+  },
+  beforeCreate() {
+    client
+      .get('/expertises/')
+      .then((res) => {
+        this.expertises = res.data.map((expertise) => expertise.expertise_name)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     backStep() {

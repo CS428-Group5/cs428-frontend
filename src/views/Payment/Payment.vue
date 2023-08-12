@@ -59,8 +59,6 @@ const userStore = useUserStore()
 const sessionDetails = ref()
 const user = ref(userStore.getUser)
 
-console.log(user.value)
-
 client.get(`/session/mentor_sessions/${route.query.mentor_session_id}`).then((response) => {
   sessionDetails.value = response.data
 })
@@ -73,7 +71,6 @@ async function processPayment() {
     }
   })
 
-  console.log(generateIDWithTime(sessionDetails.value.id))
   const payment_url = response.data.payment_url
   window.location.href = payment_url
 }

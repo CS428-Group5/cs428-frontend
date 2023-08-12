@@ -4,11 +4,13 @@
       <div class="flex flex-col gap-y-4 items-center">
         <div v-if="responseCode == '00'">
           <img src="@/assets/success.png" alt="success" />
-          <p class="text-3xl font-bold">Payment Successful!</p>
-          <p>Let’s have a meeting with your desired mentor to level up your career!</p>
+          <p class="text-3xl font-bold text-center">Payment Successful!</p>
+          <p class="text-center">
+            Let’s have a meeting with your desired mentor to level up your career!
+          </p>
         </div>
         <div v-else>
-          <p class="text-3xl font-bold">Payment Unsuccessful!</p>
+          <p class="text-3xl font-bold text-center">Payment Unsuccessful!</p>
           <p>Oops! Payment failed. Please try again</p>
         </div>
         <router-link :to="{ name: 'mentors.list' }">
