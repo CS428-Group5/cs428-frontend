@@ -93,9 +93,7 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.router.params.id)
-    this.form.mentor_id = this.router.params.id
-    console.log(this.user)
+    this.form.mentor_id = this.router.params.mentor_id
   },
   methods: {
     calculateAverageRating(reviews) {
@@ -123,12 +121,9 @@ export default {
       this.form.rating = buttonValue
     },
     async submitReview() {
-      console.log(this.form)
-
       await client
         .post('/mentors/reviews', this.form)
         .then((res) => {
-          // console.log('Add review successfully')
           this.reviews.push({
             content: this.form.content,
             rating: this.form.rating,
