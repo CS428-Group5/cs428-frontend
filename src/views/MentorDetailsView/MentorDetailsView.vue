@@ -8,9 +8,10 @@
       "
     />
     <SessionInfo
-      :mentor="mentor"
-      :removeFavoriteMentor="removeFavoriteMentor"
-      :addFavoriteMentor="addFavoriteMentor"
+      :mentorName="mentor.fullname"
+      :mentorWork="`${mentor.current_title} at ${mentor.current_company}`"
+      :sessionPrice="mentor.default_session_price"
+      :remainingSession="mentor.remainingSession"
     />
   </section>
 
@@ -47,6 +48,8 @@ export default {
       .get(`/mentors/${this.router.params.mentor_id}`)
       .then((res) => {
         this.mentor = res.data
+        this.mentor.fullname = this.mentor.firstname + ' ' + this.mentor.lastname
+        this.mentor.remainingSession = 2
       })
       .catch((e) => {
         console.log('error,', e)

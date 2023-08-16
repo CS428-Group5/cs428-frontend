@@ -1,11 +1,19 @@
 <template>
   <div class="col-span-9 flex flex-col p-2">
-    <h1 class="text-3xl font-bold">{{ mentor.firstname + ' ' + mentor.lastname }}</h1>
-    <p class="text-lg mt-2">{{ mentor.current_title + 'at' + mentor.current_company }}</p>
+    <h1 class="text-3xl font-bold">{{ mentorName }}</h1>
+    <p class="text-lg mt-2">{{ mentorWork }}</p>
     <h2 class="mt-4 text-2xl font-bold">
-      {{ Math.trunc(mentor.default_session_price).toLocaleString('en') }}d / session
+      {{ Math.trunc(sessionPrice).toLocaleString('en') }}d / session
     </h2>
     <div class="mt-4 flex flex-row space-x-13">
+      <router-link
+        :to="{ name: 'mentor.addSession' }"
+        v-if="isMentor && userStore.getUser.id == route.params.mentor_id"
+      >
+        <button
+          class="text-base w-fill h-12 px-4 py-3 mr-3 text-blue-dark border border-blue-dark rounded-xl"
+          style="background-color: #ffffff"
+        >
       <router-link
         :to="{ name: 'mentor.addSession' }"
         v-if="isMentor && userStore.getUser.id == route.params.mentor_id"
@@ -23,11 +31,15 @@
           class="text-base w-fill h-12 px-4 py-3 mr-3 text-white rounded-xl"
           style="background-color: #599bff"
         >
+        <button
+          class="text-base w-fill h-12 px-4 py-3 mr-3 text-white rounded-xl"
+          style="background-color: #599bff"
+        >
           <span>Book a session</span>
         </button>
       </router-link>
 
-      <div class="w-10 h-10 aspect-square bg-blue-light rounded-2xl p-2 m-1 cursor-pointer">
+      <button class="w-10 h-10 rounded-xl pl-2 my-1 mr-3" style="background-color: #d9e6fa">
         <MessageTextOutline class="w-2 h-2"></MessageTextOutline>
       </div>
       <div
@@ -69,11 +81,7 @@ watchEffect(() => {
 
 <script>
 export default {
-  name: 'SessionInfo.vue',
-  props: ['mentor', 'addFavoriteMentor', 'removeFavoriteMentor'],
-  data() {
-    return {}
-  }
+  props: ['mentorName', 'mentorWork', 'sessionPrice', 'remainingSession']
 }
 </script>
 
