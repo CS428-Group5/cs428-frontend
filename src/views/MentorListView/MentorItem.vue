@@ -58,14 +58,10 @@ watchEffect(() => {
   isFav.value = favStore.getAll.map((mentor) => mentor.id).includes(Number(props.mentor.id))
 })
 
-console.log(isFav.value)
-
 function handleEmit() {
   if (isFav.value) {
-    console.log('remove')
     emits('removeFavoriteMentor', props.mentor.id)
   } else {
-    console.log('add')
     emits('addFavoriteMentor', props.mentor)
   }
 }
