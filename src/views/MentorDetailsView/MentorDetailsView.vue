@@ -29,7 +29,7 @@ import Image from './Image.vue'
 import SessionInfo from './SessionInfo.vue'
 import MentorInfo from './MentorInfo.vue'
 import MentorReviews from './MentorReviews.vue'
-import { useFavStore } from '@/stores/fav';
+import { useFavStore } from '@/stores/fav'
 import client from '@/axios/client.ts'
 import { useRoute } from 'vue-router'
 
@@ -43,11 +43,9 @@ export default {
     }
   },
   mounted() {
-    console.log(this.router.params)
     client
       .get(`/mentors/${this.router.params.mentor_id}`)
       .then((res) => {
-        console.log(res.data)
         this.mentor = res.data
       })
       .catch((e) => {
@@ -84,7 +82,7 @@ export default {
         .catch((e) => {
           this.error = e.response
         })
-    },
+    }
   }
 }
 </script>

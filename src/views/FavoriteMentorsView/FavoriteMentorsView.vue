@@ -3,7 +3,7 @@
     <div v-if="list_fav?.length === 0" class="col-span-3">No result.</div>
     <template v-else>
       <div v-for="mentor in list_fav" :key="mentor.id" class="col-span-3">
-        <FavoriteMentorItem :mentor="mentor" :removeFavoriteMentor="removeFavoriteMentor" />
+        <FavoriteMentorItem :mentor="mentor" @remove-favorite-mentor.once="removeFavoriteMentor" />
       </div>
     </template>
   </div>
@@ -11,43 +11,33 @@
 
 <script setup>
 import FavoriteMentorItem from './FavoriteMentorItem.vue'
-import { useFavStore } from '@/stores/fav';
+import { useFavStore } from '@/stores/fav'
+import { ref } from 'vue'
+import client from '@/axios/client.ts'
+
+const list_fav = ref([])
+const favStore = useFavStore()
+
 client
   .get('/mentors/favorite')
   .then((res) => {
     favStore.setFav(res.data)
+    list_fav.value = res.data
   })
   .catch((err) => {
     console.log(err)
   })
-</script>
 
-<script>
-import { useFavStore } from '@/stores/fav';
-import FavoriteMentorItem from './FavoriteMentorItem.vue'
-import client from '@/axios/client.ts'
-export default {
-  name: 'FavoriteMentorsView.vue',
-  data() {
-    return {
-      list_fav: useFavStore().getAll,
-      error: '',
-    }
-  },
-  methods: {
-    async removeFavoriteMentor(id) {
-      client
-        .delete('/mentors/favorite', { data: { mentor_id: id } })
-        .then((response) => {
-          useFavStore().removeFav(id)
-          location.reload()
-        })
-        .catch((e) => {
-          this.error = e.response
-        })
-    },
-  }
-
+function removeFavoriteMentor(id) {
+  client
+    .delete('/mentors/favorite', { data: { mentor_id: id } })
+    .then(() => {
+      favStore.removeFav(id)
+      list_fav.value = favStore.getAll
+    })
+    .catch((e) => {
+      console.log(e)
+    })
 }
 </script>
 

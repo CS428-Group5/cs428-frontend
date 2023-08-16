@@ -1,10 +1,18 @@
 <template>
   <div class="relative z-0">
-    <img class="aspect-square rounded-3xl mb-3" :src="mentor.avatar !== null
-      ? `http://localhost:8000${mentor.avatar}`
-      : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`" alt="avatar" />
-    <div class="absolute right-3 top-3 z-10 w-10 aspect-square bg-blue-light rounded-2xl p-2 cursor-pointer">
-      <Heart style="color: #599BFF;" @click="removeFavoriteMentor(mentor.id)" />
+    <img
+      class="aspect-square rounded-3xl mb-3"
+      :src="
+        mentor.avatar !== null
+          ? `http://localhost:8000${mentor.avatar}`
+          : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
+      "
+      alt="avatar"
+    />
+    <div
+      class="absolute right-3 top-3 z-10 w-10 aspect-square bg-blue-light rounded-2xl p-2 cursor-pointer"
+    >
+      <Heart style="color: #599bff" @click="$emit('removeFavoriteMentor', mentor.id)" />
     </div>
   </div>
   <router-link :to="{ path: `/mentors/${mentor.id}` }">
@@ -32,17 +40,12 @@
 
 <script setup>
 import Heart from 'vue-material-design-icons/Heart.vue'
-</script>
 
-<script>
-export default {
-  name: 'FavoriteMentorsItem.vue',
-  props: ['mentor', 'removeFavoriteMentor'],
-  data() {
-    return {}
-  },
-  
-}
+const props = defineProps({
+  mentor: Object
+})
+
+const emit = defineEmits(['removeFavoriteMentor'])
 </script>
 
 <style lang="scss" scoped></style>

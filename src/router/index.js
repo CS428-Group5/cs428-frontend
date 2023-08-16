@@ -50,9 +50,9 @@ const router = createRouter({
           component: () => import('@/views/Payment/PaymentReturn.vue')
         },
         {
-          path: '/fav',
-          name: 'fav',
-          component: () => import('../views/Favmentor.vue')
+          path: '/favorite-mentors',
+          name: 'mentors.favorite',
+          component: () => import('@/views/FavoriteMentorsView/FavoriteMentorsView.vue')
         },
         {
           path: '/session/:mentor_id/add-session',

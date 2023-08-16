@@ -10,8 +10,10 @@ import client from '@/axios/client.ts'
 import { useUserStore } from '@/stores/user'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 import APIS from '@/constants/apis.ts'
+import { useFavStore } from '@/stores/fav'
 
 const userStore = useUserStore()
+const favStore = useFavStore()
 const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
 
 const isLogin = ref(false)
@@ -31,6 +33,10 @@ watchEffect(() => {
 
         isLogin.value = userStore.getUser != undefined
         isMentor.value = userStore.getUser?.user?.is_mentor
+
+        if (!isMentor.value) {
+          favStore.getFav()
+        }
       })
       .catch(() => {
         userStore.setUser(undefined)
