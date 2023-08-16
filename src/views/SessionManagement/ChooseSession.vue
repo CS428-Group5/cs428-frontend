@@ -121,22 +121,12 @@ export default {
     },
 
     async submitBookSession() {
-      await client
-        .post(`/session/booked_session/${this.temp}`)
-        .then((res) => {
-          // console.log('Book session successfully')
-          // console.log('res.data:', res.data['Google Oauth2 Link'])
-          // window.location.href = res.data['Google Oauth2 Link']
-          this.$router.push({
-            name: 'payment',
-            query: {
-              mentor_session_id: this.temp
-            }
-          })
-        })
-        .catch((e) => {
-          this.error = e.response.data
-        })
+      this.$router.push({
+        name: 'payment',
+        query: {
+          mentor_session_id: this.temp
+        }
+      })
     },
 
     checkHaveSession(date) {

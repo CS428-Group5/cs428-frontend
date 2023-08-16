@@ -111,7 +111,7 @@ function logoutAccount() {
       userStore.setUser({})
       localStorage.removeItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
       client.defaults.headers.common.Authorization = ``
-      location.reload()
+      router.push({ name: 'login' })
     })
     .catch((e) => {
       console.log(e)

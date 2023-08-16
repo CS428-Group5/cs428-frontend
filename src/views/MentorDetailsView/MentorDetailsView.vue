@@ -20,7 +20,7 @@
       :experience="mentor.experience"
       :about="mentor.about_me"
     />
-    <MentorReviews :reviews="reviews" />
+    <MentorReviews />
   </section>
 </template>
 
@@ -39,7 +39,6 @@ export default {
     return {
       router: useRoute(),
       mentor: {},
-      reviews: [],
       errors: []
     }
   },

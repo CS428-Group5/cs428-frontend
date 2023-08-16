@@ -3,20 +3,33 @@
     <div v-if="isLogin">
       <h1 class="text-xl font-bold">Reviews</h1>
       <form @submit.prevent="submitReview">
-        <input class="bg-gray-lightest rounded-xl w-full h-11 px-6 py-4 mt-3" placeholder="Your comment"
-          v-model="form.content" />
+        <input
+          class="bg-gray-lightest rounded-xl w-full h-11 px-6 py-4 mt-3"
+          placeholder="Your comment"
+          v-model="form.content"
+        />
 
         <span class="flex flex-row mt-4">
           <p class="my-auto text-base mr-3">Which score will you rate your mentor?</p>
           <div class="flex flex-col px-1" v-for="i in 5" :key="i">
-            <div class="ratingButton" :id="`ratingButton${i}`" style="background-color: #ffffff"
-              @mouseenter="addHoverClass(i)" @mouseleave="removeHoverClass(i)" @click="addClickClass(i)">
+            <div
+              class="ratingButton"
+              :id="`ratingButton${i}`"
+              style="background-color: #ffffff"
+              @mouseenter="addHoverClass(i)"
+              @mouseleave="removeHoverClass(i)"
+              @click="addClickClass(i)"
+            >
               {{ i }}
             </div>
           </div>
         </span>
 
-        <button class="w-fill h-12 px-4 py-3 mt-4 text-white rounded-xl" style="background-color: #599bff" type="submit">
+        <button
+          class="w-fill h-12 px-4 py-3 mt-4 text-white rounded-xl"
+          style="background-color: #599bff"
+          type="submit"
+        >
           Submit
         </button>
       </form>
@@ -28,10 +41,15 @@
       </h3>
       <div class="my-4" v-for="(review, index) in reviews" :key="index">
         <div class="flex flex-row">
-          <img :src="review.avatar
-            ? review.avatar
-            : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
-            " class="w-10 h-10 rounded-full mr-2" alt="" />
+          <img
+            :src="
+              review.avatar
+                ? review.avatar
+                : `https://source.unsplash.com/random/300x300?sig=${Math.random() * 1000 + 1}`
+            "
+            class="w-10 h-10 rounded-full mr-2"
+            alt=""
+          />
           <p class="font-bold my-auto">{{ review.lastname + ' ' + review.firstname }}</p>
         </div>
         <p class="text-blue-darkest my-2">Score: {{ review.rating }}</p>
@@ -51,34 +69,34 @@ watchEffect(() => {
   isLogin.value = userStore.getUser != undefined
   isMentor.value = userStore.getUser?.user?.is_mentor
 })
-
 </script>
 
 <script>
-import client from '../../axios/client'
+import client from '@/axios/client'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
 
 export default {
-  props: ['reviews'],
   data() {
     return {
       router: useRoute(),
+      reviews: [],
       form: {
         mentor_id: '',
         rating: 0,
         content: ''
       },
-      error: '',
-      user: userStore.getUser?.user,
+      errors: [],
+      user: userStore.getUser?.user
     }
   },
+  created() {
+    this.fetchReview()
+  },
   mounted() {
-    // console.log(this.router.params.id)
-    this.form.mentor_id = this.router.params.id
-    console.log(this.user)
+    this.form.mentor_id = this.router.params.mentor_id
   },
   methods: {
     calculateAverageRating(reviews) {
@@ -105,24 +123,24 @@ export default {
 
       this.form.rating = buttonValue
     },
-    async submitReview() {
-      console.log(this.form)
 
+    async fetchReview() {
       await client
-        .post('/mentors/reviews', this.form)
+        .get(`/mentors/${this.router.params.mentor_id}/reviews`)
         .then((res) => {
-          // console.log('Add review successfully')
-          this.reviews.push({
-            content: this.form.content,
-            rating: this.form.rating,
-            firstname: this.user.first_name,
-            lastname: this.user.last_name,
-            avatar: this.user.avatar,
-          })
+          console.log(res.data)
+          this.reviews = res.data
         })
         .catch((e) => {
-          this.error = e.response.data
+          console.log('error,', e)
+          this.errors.push(e)
         })
+    },
+    async submitReview() {
+      await client.post('/mentors/reviews', this.form).catch((e) => {
+        console.log('error,', e)
+        this.errors.push(e)
+      })
 
       // reset
       this.form.content = ''
@@ -133,6 +151,8 @@ export default {
         buttons.push(document.getElementById('ratingButton' + i))
       }
       buttons.forEach((b) => b.classList.remove('button-click'))
+
+      this.fetchReview()
     }
   }
 }

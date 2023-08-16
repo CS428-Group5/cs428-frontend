@@ -18,8 +18,8 @@
         <select name="expertise" id="expertise" class="bg-gray-lightest rounded-xl w-full h-full px-6 py-4 mb-6"
           v-model="form.expertise">
           <option selected>Select</option>
-          <option v-for="(choice, index) in expertises" :value="choice" :key="index">
-            <p>{{ choice }}</p>
+          <option v-for="expertise in expertises" :value="expertise" :key="expertise">
+            {{ expertise }}
           </option>
         </select>
       </div>
@@ -67,6 +67,7 @@ function getExpertises() {
 }
 getExpertises();
 </script>
+
 <script>
 export default {
   name: 'SignUpMentorForm',
@@ -74,8 +75,19 @@ export default {
 
   data() {
     return {
-      error: ''
+      error: '',
+      expertises: []
     }
+  },
+  beforeCreate() {
+    client
+      .get('/expertises/')
+      .then((res) => {
+        this.expertises = res.data.map((expertise) => expertise.expertise_name)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   },
   methods: {
     backStep() {
