@@ -7,28 +7,12 @@
         <div class="font-bold mb-3">Price</div>
         <div class="flex flex-col gap-y-2">
           <div>From</div>
-          <input
-            type="text"
-            name="from"
-            id="from"
-            class="px-6 py-4 bg-gray-lightest rounded-2xl"
-            v-model="priceFrom"
-          />
+          <input type="text" name="from" id="from" class="px-6 py-4 bg-gray-lightest rounded-2xl" v-model="priceFrom" />
           <div>To</div>
-          <input
-            type="text"
-            name="to"
-            id="to"
-            class="px-6 py-4 bg-gray-lightest rounded-2xl"
-            v-model="priceTo"
-          />
+          <input type="text" name="to" id="to" class="px-6 py-4 bg-gray-lightest rounded-2xl" v-model="priceTo" />
         </div>
       </div>
-      <button
-        type="button"
-        class="bg-blue w-fit px-4 py-3 text-white rounded-2xl"
-        @click="applyFilter"
-      >
+      <button type="button" class="bg-blue w-fit px-4 py-3 text-white rounded-2xl" @click="applyFilter">
         Apply filter
       </button>
     </div>
@@ -37,7 +21,7 @@
       <template v-else>
         <div v-for="(mentor, index) in mentors" :key="index" class="col-span-3">
           <router-link :to="{ path: `/mentors/${mentor.id}` }">
-            <MentorItem :mentor="mentor" />
+            <MentorItem :mentor="mentor" :addFavoriteMentor="addFavoriteMentor" :removeFavoriteMentor="removeFavoriteMentor"/>
           </router-link>
         </div>
       </template>
@@ -52,6 +36,7 @@ import FilterList from './FilterList.vue'
 import { ref } from 'vue'
 import client from '@/axios/client'
 import { useRoute } from 'vue-router'
+import { useFavStore } from '@/stores/fav';
 
 const route = useRoute()
 
@@ -109,6 +94,29 @@ client
   .catch((err) => {
     console.log(err)
   })
+
+async function removeFavoriteMentor(id) {
+  client
+    .delete('/mentors/favorite', { data: { mentor_id: id } })
+    .then((response) => {
+      useFavStore().removeFav(id)
+      location.reload()
+    })
+    .catch((e) => {
+      this.error = e.response
+    })
+}
+async function addFavoriteMentor(mentor) {
+  client
+    .post('/mentors/favorite', { mentor_id: mentor.id })
+    .then((response) => {
+      useFavStore().addFav(mentor)
+      location.reload()
+    })
+    .catch((e) => {
+      this.error = e.response
+    })
+}
 
 fetchMentors()
 </script>

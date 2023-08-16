@@ -10,11 +10,13 @@ import Navbar from '@/components/Navbar.vue'
 import { ref, watchEffect } from 'vue'
 import client from '@/axios/client.ts'
 import { useUserStore } from '@/stores/user'
+import { useFavStore } from '@/stores/fav'
 import LOCAL_STORAGE_KEYS from '@/constants/local_storage.ts'
 import APIS from '@/constants/apis.ts'
 
 const shouldShowNavbar = ref(true)
 const userStore = useUserStore()
+const favStore = useFavStore()
 const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN_KEY)
 
 const isLogin = ref(false)
@@ -32,9 +34,16 @@ watchEffect(() => {
         // console.log(response.data);
         client.defaults.headers.common.Authorization = `Bearer ${token}`
         userStore.setUser(response.data)
-
         isLogin.value = userStore.getUser != undefined
         isMentor.value = userStore.getUser?.user?.is_mentor
+        client
+          .get('/mentors/favorite')
+          .then((res) => {
+            favStore.setFav(res.data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       })
       .catch(() => {
         userStore.setUser(undefined)

@@ -1,11 +1,9 @@
 <template>
   <div class="grid grid-cols-12 gap-x-6">
-    <div v-if="mentors.length === 0" class="col-span-3">No result.</div>
+    <div v-if="list_fav?.length === 0" class="col-span-3">No result.</div>
     <template v-else>
-      <div v-for="(mentor, index) in mentors" :key="index" class="col-span-3">
-        <router-link :to="{ path: `/mentors/${mentor.id}` }">
-          <FavoriteMentorItem :mentor="mentor" />
-        </router-link>
+      <div v-for="mentor in list_fav" :key="mentor.id" class="col-span-3">
+        <FavoriteMentorItem :mentor="mentor" :removeFavoriteMentor="removeFavoriteMentor" />
       </div>
     </template>
   </div>
@@ -13,31 +11,44 @@
 
 <script setup>
 import FavoriteMentorItem from './FavoriteMentorItem.vue'
+import { useFavStore } from '@/stores/fav';
+client
+  .get('/mentors/favorite')
+  .then((res) => {
+    favStore.setFav(res.data)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+</script>
 
-import { ref } from 'vue'
-import client from '@/axios/client'
-import { useRoute } from 'vue-router'
+<script>
+import { useFavStore } from '@/stores/fav';
+import FavoriteMentorItem from './FavoriteMentorItem.vue'
+import client from '@/axios/client.ts'
+export default {
+  name: 'FavoriteMentorsView.vue',
+  data() {
+    return {
+      list_fav: useFavStore().getAll,
+      error: '',
+    }
+  },
+  methods: {
+    async removeFavoriteMentor(id) {
+      client
+        .delete('/mentors/favorite', { data: { mentor_id: id } })
+        .then((response) => {
+          useFavStore().removeFav(id)
+          location.reload()
+        })
+        .catch((e) => {
+          this.error = e.response
+        })
+    },
+  }
 
-const route = useRoute()
-const mentors = ref([])
-
-function fetchMentors() {
-  client
-    .get('/mentors/', {
-      params: {},
-      paramsSerializer: {
-        indexes: null
-      }
-    })
-    .then((res) => {
-      console.log(res.data)
-      mentors.value = res.data
-    })
-    .catch((err) => {
-      console.log(err)
-    })
 }
-fetchMentors();
 </script>
 
 <style lang="scss" scoped></style>

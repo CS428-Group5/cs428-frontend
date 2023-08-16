@@ -1,8 +1,11 @@
 <template>
   <div class="relative z-0">
     <img class="aspect-square rounded-3xl mb-3" :src="avatarUrl" alt="avatar" />
-    <div class="absolute right-3 top-3 z-10 w-10 aspect-square bg-blue-light rounded-2xl p-2">
-      <HeartOutlineIcon />
+    <div v-if="isFav" class="absolute right-3 top-3 z-10 w-10 aspect-square bg-blue-light rounded-2xl p-2 cursor-pointer">
+      <Heart style="color: #599BFF;" @click="removeFavoriteMentor(mentor.id)" />
+    </div>
+    <div v-else class="absolute right-3 top-3 z-10 w-10 aspect-square bg-blue-light rounded-2xl p-2 cursor-pointer">
+      <HeartOutline @click="addFavoriteMentor(mentor)"/>
     </div>
   </div>
   <div class="flex flex-col divide-y divide-solid divide-gray-light">
@@ -27,15 +30,33 @@
 </template>
 
 <script setup>
-import HeartOutlineIcon from 'vue-material-design-icons/HeartOutline.vue'
+import HeartOutline from 'vue-material-design-icons/HeartOutline.vue'
+import Heart from 'vue-material-design-icons/Heart.vue'
+
+import { ref, watchEffect } from 'vue'
+import { useFavStore } from '@/stores/fav'
+
+const favStore = useFavStore()
+const isFav = ref(false)
+
+
 
 const props = defineProps({
   mentor: {
     type: Object,
     required: true
+  },
+  removeFavoriteMentor: {
+    type: Function,
+  },
+  addFavoriteMentor: {
+    type: Function,
   }
 })
-
+watchEffect(() => {
+  isFav.value = favStore.getAll.map((item) => item.id).includes(Number(props.mentor.id))
+  console.log(isFav.value)
+})
 const avatarUrl =
   props.mentor.avatar !== null
     ? `http://localhost:8000${props.mentor.avatar}`

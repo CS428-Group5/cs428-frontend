@@ -50,11 +50,6 @@ const router = createRouter({
       component: () => import('@/views/Payment/PaymentReturn.vue')
     },
     {
-      path: '/fav',
-      name: 'fav',
-      component: () => import('../views/Favmentor.vue')
-    },
-    {
       path: '/session/:mentor_id/add-session',
       name: 'mentor.addSession',
       component: () => import('../views/SessionManagement/AddSession.vue')
