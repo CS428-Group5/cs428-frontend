@@ -8,10 +8,9 @@
       "
     />
     <SessionInfo
-      :mentorName="mentor.fullname"
-      :mentorWork="`${mentor.current_title} at ${mentor.current_company}`"
-      :sessionPrice="mentor.default_session_price"
-      :remainingSession="mentor.remainingSession"
+      :mentor="mentor"
+      :removeFavoriteMentor="removeFavoriteMentor"
+      :addFavoriteMentor="addFavoriteMentor"
     />
   </section>
 
