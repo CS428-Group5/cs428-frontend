@@ -46,7 +46,7 @@
             <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
           </router-link>
 
-          <router-link :to="{ name: 'fav' }">
+          <router-link :to="{ name: 'mentors.favorite' }">
             <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
           </router-link>
           <router-link :to="{ name: 'manage.booking' }">

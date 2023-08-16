@@ -16,6 +16,31 @@ const router = createRouter({
       component: () => import('@/views/SignupView/SignUpView.vue')
     },
     {
+      path: '/payment',
+      name: 'payment',
+      component: () => import('@/views/Payment/Payment.vue')
+    },
+    {
+      path: '/payment_return',
+      name: 'success',
+      component: () => import('@/views/Payment/PaymentReturn.vue')
+    },
+    {
+      path: '/history',
+      name: 'history',
+      component: () => import('../views/PurchaseHistory.vue')
+    },
+    {
+      path: '/manage-booking',
+      name: 'manage.booking',
+      component: () => import('../views/BookingManagement/BookingManagement.vue')
+    },
+    {
+      path: '/favorite-mentors',
+      name: 'mentors.favorite',
+      component: () => import('../views/FavoriteMentorsView/FavoriteMentorsView.vue')
+    },
+    {
       path: '/',
       component: BaseView,
       children: [
@@ -40,21 +65,6 @@ const router = createRouter({
           component: () => import('@/views/UserProfileView/UserProfileView.vue')
         },
         {
-          path: '/payment',
-          name: 'payment',
-          component: () => import('@/views/Payment/Payment.vue')
-        },
-        {
-          path: '/payment_return',
-          name: 'success',
-          component: () => import('@/views/Payment/PaymentReturn.vue')
-        },
-        {
-          path: '/fav',
-          name: 'fav',
-          component: () => import('../views/Favmentor.vue')
-        },
-        {
           path: '/session/:mentor_id/add-session',
           name: 'mentor.addSession',
           component: () => import('../views/SessionManagement/AddSession.vue')
@@ -64,16 +74,6 @@ const router = createRouter({
           name: 'mentee.chooseSession',
           component: () => import('../views/SessionManagement/ChooseSession.vue')
         },
-        {
-          path: '/history',
-          name: 'history',
-          component: () => import('../views/PurchaseHistoryView/PurchaseHistory.vue')
-        },
-        {
-          path: '/manage-booking',
-          name: 'manage.booking',
-          component: () => import('../views/BookingManagement/BookingManagement.vue')
-        }
       ]
     }
   ]
