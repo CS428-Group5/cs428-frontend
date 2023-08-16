@@ -37,7 +37,11 @@
       <template v-else>
         <div v-for="(mentor, index) in mentors" :key="index" class="col-span-3">
           <router-link :to="{ path: `/mentors/${mentor.id}` }">
-            <MentorItem :mentor="mentor" />
+            <MentorItem
+              :mentor="mentor"
+              @add-favorite-mentor="addFavoriteMentor"
+              @remove-favorite-mentor="removeFavoriteMentor"
+            />
           </router-link>
         </div>
       </template>
@@ -52,8 +56,10 @@ import FilterList from './FilterList.vue'
 import { ref } from 'vue'
 import client from '@/axios/client'
 import { useRoute } from 'vue-router'
+import { useFavStore } from '@/stores/fav'
 
 const route = useRoute()
+const favStore = useFavStore()
 
 const experiences = ['1-3 years', '3-5 years', '>5 years']
 const expertises = ref([])
@@ -107,6 +113,29 @@ client
   .catch((err) => {
     console.log(err)
   })
+
+function removeFavoriteMentor(id) {
+  client
+    .delete('/mentors/favorite', { data: { mentor_id: id } })
+    .then((response) => {
+      favStore.removeFav(id)
+      location.reload()
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
+function addFavoriteMentor(mentor) {
+  client
+    .post('/mentors/favorite', { mentor_id: mentor.id })
+    .then((response) => {
+      favStore.addFav(mentor)
+      location.reload()
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+}
 
 fetchMentors()
 </script>
