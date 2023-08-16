@@ -8,9 +8,10 @@
       "
     />
     <SessionInfo
-      :mentor="mentor"
-      :removeFavoriteMentor="removeFavoriteMentor"
-      :addFavoriteMentor="addFavoriteMentor"
+      :mentorName="mentor.fullname"
+      :mentorWork="`${mentor.current_title} at ${mentor.current_company}`"
+      :sessionPrice="mentor.default_session_price"
+      :remainingSession="mentor.remainingSession"
     />
   </section>
 
@@ -29,7 +30,7 @@ import Image from './Image.vue'
 import SessionInfo from './SessionInfo.vue'
 import MentorInfo from './MentorInfo.vue'
 import MentorReviews from './MentorReviews.vue'
-import { useFavStore } from '@/stores/fav';
+
 import client from '@/axios/client.ts'
 import { useRoute } from 'vue-router'
 
@@ -49,42 +50,13 @@ export default {
       .then((res) => {
         console.log(res.data)
         this.mentor = res.data
+        this.mentor.fullname = this.mentor.firstname + ' ' + this.mentor.lastname
+        this.mentor.remainingSession = 2
       })
       .catch((e) => {
         console.log('error,', e)
         this.errors.push(e)
       })
-
-    client
-      .get(`/mentors/${this.router.params.mentor_id}/reviews`)
-      .then((res) => {
-        this.reviews = res.data
-      })
-      .catch((e) => console.log('error,', e))
-  },
-  methods: {
-    async removeFavoriteMentor(id) {
-      client
-        .delete('/mentors/favorite', { data: { mentor_id: id } })
-        .then((response) => {
-          useFavStore().removeFav(id)
-          location.reload()
-        })
-        .catch((e) => {
-          this.error = e.response
-        })
-    },
-    async addFavoriteMentor(mentor) {
-      client
-        .post('/mentors/favorite', { mentor_id: mentor.id })
-        .then((response) => {
-          useFavStore().addFav(mentor)
-          location.reload()
-        })
-        .catch((e) => {
-          this.error = e.response
-        })
-    },
   }
 }
 </script>
