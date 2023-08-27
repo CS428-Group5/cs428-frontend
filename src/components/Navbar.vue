@@ -62,9 +62,6 @@
           <router-link :to="{ name: 'users', params: { id: userStore.getUser.user.id } }">
             <li class="px-4 py-2 hover:bg-gray-lightest">My Profile</li>
           </router-link>
-          <router-link :to="{ name: 'fav' }">
-            <li class="px-4 py-2 hover:bg-gray-lightest">Favorite Mentors</li>
-          </router-link>
           <router-link :to="{ name: 'manage.booking' }">
             <li class="px-4 py-2 hover:bg-gray-lightest">Booking Management</li>
           </router-link>
