@@ -6,19 +6,7 @@
       {{ Math.trunc(mentor.default_session_price).toLocaleString('en') }}d / session
     </h2>
     <div class="mt-4 flex flex-row space-x-13">
-      <router-link
-        :to="{ name: 'mentor.addSession' }"
-        v-if="isMentor && userStore.getUser.id == route.params.mentor_id"
-      >
-        <button
-          class="text-base w-fill h-12 px-4 py-3 mr-3 text-blue-dark border border-blue-dark rounded-xl"
-          style="background-color: #ffffff"
-        >
-          <span>Add more sessions</span>
-        </button>
-      </router-link>
-
-      <router-link :to="{ name: 'mentee.chooseSession' }" v-else-if="!isMentor">
+      <router-link :to="{ name: 'mentee.chooseSession' }" v-if="!isMentor">
         <button
           class="text-base w-fill h-12 px-4 py-3 mr-3 text-white rounded-xl"
           style="background-color: #599bff"
