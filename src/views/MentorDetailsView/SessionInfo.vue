@@ -1,7 +1,7 @@
 <template>
   <div class="col-span-9 flex flex-col p-2">
     <h1 class="text-3xl font-bold">{{ mentor.firstname + ' ' + mentor.lastname }}</h1>
-    <p class="text-lg mt-2">{{ mentor.current_title + 'at' + mentor.current_company }}</p>
+    <p class="text-lg mt-2">{{ mentor.current_title + ' at ' + mentor.current_company }}</p>
     <h2 class="mt-4 text-2xl font-bold">
       {{ Math.trunc(mentor.default_session_price).toLocaleString('en') }}d / session
     </h2>
